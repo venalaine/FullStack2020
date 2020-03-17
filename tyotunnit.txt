@@ -1,2 +1,2 @@
 osa0: 1h
-osa1: 3h
+osa1: 4h
