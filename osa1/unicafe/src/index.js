@@ -7,6 +7,8 @@ const App = () => {
     const [neutral, setNeutral] = useState(0)
     const [bad, setBad] = useState(0)
 
+    const list = [good, neutral, bad]
+
 
     const handleGoodClick = () => {
         setGood(good + 1)
@@ -23,11 +25,11 @@ const App = () => {
     return (
         <div>
             <Header title='Give Feedback' />
-            <Button onClick={handleGoodClick} name='Good'/>
-            <Button onClick={handleNeutralClick} name='Neutral'/>
-            <Button onClick={handleBadClick} name='Bad'/>
+            <Button onClick={handleGoodClick} name='Good' />
+            <Button onClick={handleNeutralClick} name='Neutral' />
+            <Button onClick={handleBadClick} name='Bad' />
             <Header title='Statistics' />
-            <Statistics />
+            <Statistics list={list} />
         </div>
     )
 }
@@ -48,14 +50,60 @@ const Header = ({ title }) => {
     )
 }
 
-const Statistics = ({ name }) => {
-    return (
-        <div>
-            <p>Good</p>
-            <p>Neutral</p>
-            <p>Bad</p>
-        </div>
-    )
+const Statistics = ({ list }) => {
+    const all = list[0] + list[1] + list[2]
+
+    let average = (list[0] * 1 + list[1] * 0 + list[2] * -1) / all
+    if (all === 0) {
+        average = 'Nothing to compute'
+    }
+
+    let positive = list[0] / all
+    if (all === 0) {
+        positive = 'No values typed'
+    }
+
+    if (all === 0) {
+        return (
+            <div>
+                <p>No feedback given</p>
+            </div>
+        )
+    } else {
+
+        return (
+            <table>
+                <tr>
+                    <td>Good</td>
+                    <td>{list[0]}</td>
+                </tr>
+                <tr>
+                    <td>Neutral</td>
+                    <td>{list[1]}</td>
+                </tr>
+                <tr>
+                    <td>Bad</td>
+                    <td>{list[2]}</td>
+                </tr>
+                <tr>
+                    <td>Average</td>
+                    <td>{average}</td>
+                </tr>
+                <tr>
+                    <td>Positive</td>
+                    <td>{positive} %</td>
+                </tr>
+            </table>
+            /*
+                        <p> {list[0]} </p>
+                        <p>Bad {list[2]}</p>
+                        <p>All {all}</p>
+                        <p>Average {average}</p>
+                        <p>Positive {positive}</p>
+            */
+        )
+    }
+
 }
 
 ReactDOM.render(<App />,
