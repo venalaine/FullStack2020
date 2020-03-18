@@ -73,6 +73,7 @@ const Statistics = ({ list }) => {
 
         return (
             <table>
+                <tbody>
                 <tr>
                     <td>Good</td>
                     <td>{list[0]}</td>
@@ -93,14 +94,8 @@ const Statistics = ({ list }) => {
                     <td>Positive</td>
                     <td>{positive} %</td>
                 </tr>
+                </tbody>
             </table>
-            /*
-                        <p> {list[0]} </p>
-                        <p>Bad {list[2]}</p>
-                        <p>All {all}</p>
-                        <p>Average {average}</p>
-                        <p>Positive {positive}</p>
-            */
         )
     }
 
