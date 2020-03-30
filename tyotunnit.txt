@@ -1,2 +1,3 @@
 osa0: 1h
 osa1: 10h
+osa2: 2h

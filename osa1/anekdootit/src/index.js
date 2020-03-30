@@ -10,13 +10,13 @@ const App = (props) => {
     setSelected(random)
   }
 
+  
   const handleVote = () => {
     votes[selected] += 1
     let copyVotes = [...votes]
     setVotes(copyVotes)
   }
-
-
+  
   return (
     <div>
       <Header text='Anecdote of the day' />
