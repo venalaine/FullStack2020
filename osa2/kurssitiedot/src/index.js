@@ -22,12 +22,12 @@ const Header = ({ name }) => {
 }
 
 const Content = ({ parts }) => {
-
   return (
     <div>
       {parts.map(part =>
         <Part key={part.id} part={part} />
       )}
+      <TotalExercises parts={parts} />
     </div>
   )
 
@@ -42,6 +42,15 @@ const Part = ({ part }) => {
       </p>
     </div>
   )
+}
+
+const TotalExercises = ( { parts } ) => {
+console.log("TotalExer -kutsu tulee perille")
+const total = parts.reduce((prevValue, currentValue) => prevValue + currentValue.exercises, 
+0
+);
+return <p><b>Total of {total} exercises</b></p>
+
 }
 
 const App = () => {
