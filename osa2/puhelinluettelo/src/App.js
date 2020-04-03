@@ -1,14 +1,16 @@
 import React, { useState } from 'react'
 
-const App = (props) => {
+const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456' },
     { name: 'Ada Lovelace', number: '39-44-5323523' },
     { name: 'Dan Abramov', number: '12-43-234345' },
-    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+    { name: 'Mary Poppendieck', number: '39-23-6423122' },
+    { name: 'Testi Henkilö', number: '040-1234567'}
   ])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [filter, setNewFilter] = useState('')
 
   const addPerson = (event) => {
     event.preventDefault()
@@ -28,13 +30,19 @@ const App = (props) => {
   }
 
   const handlePersonChange = (event) => {
-    console.log(event.target.value)
+
     setNewName(event.target.value)
   }
 
   const handleNumberChange = (event) => {
-    console.log(event.target.value)
+    
     setNewNumber(event.target.value)
+  }
+
+  const handleFilterChange = (event) => {
+    console.log(event.target.value);
+    setNewFilter(event.target.value)
+    
   }
 
   // Tällä toteutin aiemmin henkilöiden ja numeroiden näyttämisen.
@@ -43,9 +51,21 @@ const App = (props) => {
   //      {person.name} {person.number}
   //    </p>)
 
+  const personsToShow = persons.filter(person => person.name.includes(filter))
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <form>
+        <div>
+          Filer by name:
+          <input
+          value={filter}
+          onChange={handleFilterChange}>
+          </input>
+        </div>
+      </form>
+      <h2>Add new person and number</h2>
       <form onSubmit={addPerson}>
         <div>
           Name:
@@ -66,10 +86,12 @@ const App = (props) => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {/*personsToShow*/}
-      {persons.map((person, name) =>
-        <p key={name} >{person.name} {person.number} </p>
-      )}
+      <div>
+        {/*personsToShow*/}
+        {personsToShow.map((person, name) =>
+          <p key={name} >{person.name} {person.number} </p>
+        )}
+      </div>
     </div>
   )
 
