@@ -1,0 +1,17 @@
+import React from 'react'
+
+const SearchForm = ({ filter, handleFilterChange }) => {
+    return (
+        <div>
+            <h1>Country information application</h1>
+            Find counrtries:
+            <br />
+            <input
+                value={filter}
+                onChange={handleFilterChange}>
+            </input>
+        </div>
+    )
+}
+
+export default SearchForm
