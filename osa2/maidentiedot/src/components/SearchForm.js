@@ -3,7 +3,7 @@ import React from 'react'
 const SearchForm = ({ filter, handleFilterChange }) => {
     return (
         <div>
-            <h1>Country information application</h1>
+            <h1>Country Information Application</h1>
             Find countries:
             <br />
             <input

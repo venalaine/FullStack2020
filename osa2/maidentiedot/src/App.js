@@ -4,7 +4,7 @@ import SearchForm from './components/SearchForm'
 import axios from 'axios'
 
 function App() {
-  
+
   const [countries, setCountries] = useState([])
   const [filter, setNewFilter] = useState('')
 

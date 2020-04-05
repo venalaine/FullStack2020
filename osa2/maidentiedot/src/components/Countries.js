@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from './Button'
+import Weather from './Weather'
 
 const Countries = ({ countriesToShow, setNewFilter }) => {
     if (countriesToShow.length > 10) {
@@ -13,6 +14,7 @@ const Countries = ({ countriesToShow, setNewFilter }) => {
         const countryToShow = countriesToShow[0]
         const countryLanguages = countryToShow.languages
         const flag = countryToShow.flag
+
         return (
             <div>
                 <h1>{countryToShow.name}</h1>
@@ -26,8 +28,10 @@ const Countries = ({ countriesToShow, setNewFilter }) => {
                         </li>)}
                 </ul>
                 <div>
-                    <img src={flag} alt="" style={{width:100}} />
+                    <img src={flag} alt="" style={{ width: 100 }} />
                 </div>
+                <h2>Current Weather in {countryToShow.capital}</h2>
+                <Weather place={countryToShow.name} />
             </div>
         )
     } else {
