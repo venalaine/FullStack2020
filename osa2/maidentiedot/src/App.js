@@ -4,6 +4,7 @@ import SearchForm from './components/SearchForm'
 import axios from 'axios'
 
 function App() {
+  
   const [countries, setCountries] = useState([])
   const [filter, setNewFilter] = useState('')
 
@@ -19,12 +20,13 @@ function App() {
     setNewFilter(event.target.value)
   }
 
-  const countriesToShow = countries.filter(country => country.name.includes(filter))
+
+  const countriesToShow = countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div>
       <SearchForm filter={filter} handleFilterChange={handleFilterChange} />
-      <Countries countriesToShow={countriesToShow} />
+      <Countries countriesToShow={countriesToShow} setNewFilter={setNewFilter} />
     </div>
   );
 }

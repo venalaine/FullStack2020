@@ -4,7 +4,7 @@ const SearchForm = ({ filter, handleFilterChange }) => {
     return (
         <div>
             <h1>Country information application</h1>
-            Find counrtries:
+            Find countries:
             <br />
             <input
                 value={filter}

@@ -1,6 +1,7 @@
 import React from 'react'
+import Button from './Button'
 
-const Countries = ({ countriesToShow }) => {
+const Countries = ({ countriesToShow, setNewFilter }) => {
     if (countriesToShow.length > 10) {
         return (
             <div>
@@ -25,7 +26,7 @@ const Countries = ({ countriesToShow }) => {
                         </li>)}
                 </ul>
                 <div>
-                    <img src={flag} alt="" style={{ width: 100 }} />
+                    <img src={flag} alt="" style={{width:100}} />
                 </div>
             </div>
         )
@@ -33,7 +34,10 @@ const Countries = ({ countriesToShow }) => {
         return (
             <div>
                 {countriesToShow.map((country, name) =>
-                    <p key={name} > {country.name} </p>
+                    <p key={name} >
+                        {country.name}
+                        <Button country={country} setNewFilter={setNewFilter} />
+                    </p>
                 )}
             </div>
         )
