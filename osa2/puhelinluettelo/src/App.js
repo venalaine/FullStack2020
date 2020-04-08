@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
-import axios from 'axios'
+import personService from './services/personService'
 
 const App = () => {
 
@@ -13,10 +13,9 @@ const App = () => {
 
   useEffect(() => {
     console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
+    personService
+      .getAll()
       .then(response => {
-        console.log('promise fulfilled')
         setPersons(response.data)
       })
   }, [])
@@ -27,14 +26,21 @@ const App = () => {
     if (persons.find(person => person.name === newName)) {
       window.alert(`${newName} is already added to phonebook`);
       setNewName('')
+      setNewNumber('')
     } else {
       const personObject = {
         name: newName,
         number: newNumber
       }
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
+
+      personService.create(personObject)
+        .then(response => {
+          setPersons(persons.concat(response.data))
+          setNewName('')
+          setNewNumber('')
+          console.log(response.data)
+        })
+
     }
   }
 
@@ -47,12 +53,11 @@ const App = () => {
   }
 
   const handleFilterChange = (event) => {
-    console.log(event.target.value);
     setNewFilter(event.target.value)
 
   }
 
-  const personsToShow = persons.filter(person => person.name.includes(filter))
+  const personsToShow = persons.filter(person => person.name.toLowerCase().includes(filter.toLowerCase()))
 
   return (
     <div>
