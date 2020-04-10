@@ -12,7 +12,7 @@ const App = () => {
   const [filter, setNewFilter] = useState('')
 
   useEffect(() => {
-    console.log('effect')
+
     personService
       .getAll()
       .then(response => {
@@ -23,10 +23,27 @@ const App = () => {
   const addPerson = (event) => {
     event.preventDefault()
 
-    if (persons.find(person => person.name === newName)) {
-      window.alert(`${newName} is already added to phonebook`);
+    if (persons.find(person => person.name.toLowerCase() === newName.toLowerCase())) {
+      const replaceConfirm = window.confirm(`${newName} is already added to phonebook. Do you want to replace old number?`);
+
+      if (replaceConfirm) {
+        const personTochange = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
+
+        const newObject = {
+          name: personTochange.name,
+          number: newNumber,
+          id: personTochange.id
+        }
+
+        personService
+          .updatePerson(personTochange.id, newObject)
+          .then(response => {
+            setPersons(persons.map(person => person.id !== personTochange.id ? person : response.data))
+          })
+      }
       setNewName('')
       setNewNumber('')
+      
     } else {
       const personObject = {
         name: newName,
@@ -38,7 +55,6 @@ const App = () => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
-          console.log(response.data)
         })
 
     }
