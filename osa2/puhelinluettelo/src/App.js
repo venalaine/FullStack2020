@@ -41,11 +41,19 @@ const App = () => {
           .updatePerson(personTochange.id, newObject)
           .then(response => {
             setPersons(persons.map(person => person.id !== personTochange.id ? person : response.data))
+            setErrorMessage(`Updated new number for ${personTochange.name}`)
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
           })
-          setErrorMessage(`Updated new number for ${personTochange.name}`)
-          setTimeout(() => {
-            setErrorMessage(null)
-          }, 3000)
+          .catch(error => {
+            setErrorMessage(`${personTochange.name} is alredy deteted!`)
+            setPersons(persons.filter(person => person.id !== personTochange.id))
+            setTimeout(() => {
+              setErrorMessage(null)
+            }, 3000)
+          })
+    
       }
       setNewName('')
       setNewNumber('')
