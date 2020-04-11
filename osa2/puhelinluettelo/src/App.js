@@ -3,6 +3,7 @@ import Persons from './components/Persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import personService from './services/personService'
+import Notification from './components/Notification'
 
 const App = () => {
 
@@ -10,11 +11,12 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filter, setNewFilter] = useState('')
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
 
     personService
-      .getAll()
+      .getAllPersons()
       .then(response => {
         setPersons(response.data)
       })
@@ -26,7 +28,7 @@ const App = () => {
     if (persons.find(person => person.name.toLowerCase() === newName.toLowerCase())) {
       const replaceConfirm = window.confirm(`${newName} is already added to phonebook. Do you want to replace old number?`);
 
-      if (replaceConfirm) {
+      if (replaceConfirm === true) {
         const personTochange = persons.find(person => person.name.toLowerCase() === newName.toLowerCase())
 
         const newObject = {
@@ -40,6 +42,10 @@ const App = () => {
           .then(response => {
             setPersons(persons.map(person => person.id !== personTochange.id ? person : response.data))
           })
+          setErrorMessage(`Updated new number for ${personTochange.name}`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
       }
       setNewName('')
       setNewNumber('')
@@ -50,11 +56,15 @@ const App = () => {
         number: newNumber
       }
 
-      personService.create(personObject)
+      personService.createPerson(personObject)
         .then(response => {
           setPersons(persons.concat(response.data))
           setNewName('')
           setNewNumber('')
+          setErrorMessage(`${newName} is now added to Phonebook`)
+          setTimeout(() => {
+            setErrorMessage(null)
+          }, 3000)
         })
 
     }
@@ -76,17 +86,18 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h2 className="Header">Phonebook</h2>
+      <Notification message={errorMessage} />
       <div>
         <Filter filter={filter} handleFilterChange={handleFilterChange} />
       </div>
-      <h2>Add new person and number</h2>
+      <h2 className="Header">Add new person and number</h2>
       <div>
         <PersonForm addPerson={addPerson} newName={newName} handlePersonChange={handlePersonChange} newNumber={newNumber} handleNumberChange={handleNumberChange} />
       </div>
-      <h2>Numbers</h2>
+      <h2 className="Header">Numbers</h2>
       <div>
-        <Persons personsToShow={personsToShow} persons={persons} setPersons={setPersons} />
+        <Persons personsToShow={personsToShow} persons={persons} setPersons={setPersons} setErrorMessage={setErrorMessage} />
       </div>
     </div>
   )
