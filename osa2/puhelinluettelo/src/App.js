@@ -53,11 +53,11 @@ const App = () => {
               setErrorMessage(null)
             }, 3000)
           })
-    
+
       }
       setNewName('')
       setNewNumber('')
-      
+
     } else {
       const personObject = {
         name: newName,
@@ -74,7 +74,9 @@ const App = () => {
             setErrorMessage(null)
           }, 3000)
         })
-
+        .catch(error => {
+          setErrorMessage(error.response.data.error)
+        })
     }
   }
 
