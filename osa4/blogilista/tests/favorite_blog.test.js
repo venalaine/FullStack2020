@@ -64,12 +64,12 @@ describe('favorite blogs', () => {
         likes: 2
     }
 
-    test('when multiple blogs are passed', () => {
+    test('when multiple blogs are posted', () => {
         const result = favoriteBlog.favoriteBlog(blogs)
         expect(result).toEqual(maxLikedBlog)
     })
 
-    test('when only one blog is passed', () => {
+    test('when only one blog is posted', () => {
         const result = favoriteBlog.singleFavoriteBlog(blogs[5])
         expect(result).toEqual(singleTestBlog)
     })

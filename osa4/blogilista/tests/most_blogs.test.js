@@ -1,6 +1,6 @@
-const totalLikes = require('../utils/total_likes')
+const mostBlogs = require('../utils/most_blogs')
 
-describe('total likes', () => {
+describe('most blogs', () => {
     const blogs = [
         {
             _id: "5a422a851b54a676234d17f7",
@@ -52,25 +52,13 @@ describe('total likes', () => {
         }
     ]
 
-    test('total likes when multiple blogs are posted', () => {
-        const result = totalLikes.totalLikes(blogs)
-        expect(result).toBe(36)
-    })
+    const mostActiveBlogger = {
+        author: "Robert C. Martin",
+        blogs: 3
+    }
 
-    test('total likes when only one blog is posted', () => {
-        const result = totalLikes.singleLike(blogs[0])
-        expect(result).toBe(7)
+    test('most blogs when multiple blogs are posted', () => {
+        const result = mostBlogs.mostBlogs(blogs)
+        expect(result).toEqual(mostActiveBlogger)
     })
 })
-
-
-
-
-
-
-
-
-
-
-
-
