@@ -52,13 +52,25 @@ describe('favorite blogs', () => {
         }
     ]
 
+    const maxLikedBlog = {
+        title: "Canonical string reduction",
+        author: "Edsger W. Dijkstra",
+        likes: 12
+    }
+
+    const singleTestBlog = {
+        title: "Type wars",
+        author: "Robert C. Martin",
+        likes: 2
+    }
+
     test('when multiple blogs are passed', () => {
         const result = favoriteBlog.favoriteBlog(blogs)
-        expect(result).toEqual(blogs[2])
+        expect(result).toEqual(maxLikedBlog)
     })
 
     test('when only one blog is passed', () => {
-        const result = favoriteBlog.singleFavoriteBlog(blogs[4])
-        expect(result).toEqual(blogs[4])
+        const result = favoriteBlog.singleFavoriteBlog(blogs[5])
+        expect(result).toEqual(singleTestBlog)
     })
 })

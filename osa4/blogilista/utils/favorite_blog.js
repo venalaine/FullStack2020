@@ -12,11 +12,24 @@ const favoriteBlog = (blogs) => {
 
     blogs.map(blog => tuneFavBlog(blog))
 
-    return favBlog
+    const favBlogToReturn = {
+        title: favBlog.title,
+        author: favBlog.author,
+        likes: favBlog.likes
+    }
+
+    return favBlogToReturn
 }
 
 const singleFavoriteBlog = (blog) => {
-    return blog
+    
+    const blogToReturn = {
+        title: blog.title,
+        author: blog.author,
+        likes: blog.likes
+    }
+
+    return blogToReturn
 }
 
 module.exports = {
