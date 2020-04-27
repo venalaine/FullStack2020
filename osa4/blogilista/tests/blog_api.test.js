@@ -67,9 +67,14 @@ test('right number of blogs', async () => {
 })
 
 test('id field has right format', async () => {
+    /*
     const response = await api.get('/api/blogs/')
     let blogs = []
     response.body.map(b => blogs.push(b))
+    */
+
+    const blogs = await Blog.find({})
+    console.log(blogs)
     expect(blogs[0].id).toBeDefined();
 })
 
