@@ -66,6 +66,13 @@ test('right number of blogs', async () => {
     expect(response.body).toHaveLength(initialBlogs.length)
 })
 
+test('id field has right format', async () => {
+    const response = await api.get('/api/blogs/')
+    let blogs = []
+    response.body.map(b => blogs.push(b))
+    expect(blogs[0].id).toBeDefined();
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
