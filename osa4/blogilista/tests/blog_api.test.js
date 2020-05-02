@@ -113,6 +113,32 @@ test('likes should be 0 if no value inserted', async () => {
 
 })
 
+test('title and url are mandatory', async () => {
+    const newBlog1 = {
+        author: "Erno Venäläinen",
+        url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
+        likes: "10"
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog1)
+    .expect(400)
+
+    const newBlog2 = {
+        title: "Writing blogs without url info",
+        author: "Erno Venäläinen",
+        likes: ""
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog2)
+    .expect(400)
+
+    
+})
+
 afterAll(() => {
     mongoose.connection.close()
 })
