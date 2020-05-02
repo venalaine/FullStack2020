@@ -67,12 +67,6 @@ test('right number of blogs', async () => {
 })
 
 test('id field has right format', async () => {
-    /*
-    const response = await api.get('/api/blogs/')
-    let blogs = []
-    response.body.map(b => blogs.push(b))
-    */
-
     const blogs = await Blog.find({})
     expect(blogs[0].id).toBeDefined();
 })
@@ -97,6 +91,26 @@ test('amount of blogs rises by one when posting new blog', async () => {
 
     expect(response.body).toHaveLength(initialBlogs.length + 1)
     expect(titles).toContain('The Art of Adding Blogs')
+})
+
+test('likes should be 0 if no value inserted', async () => {
+    const newBlog = {
+        title: "How to have no likes",
+        author: "Erno Venäläinen",
+        url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
+        likes: ""
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+
+    expect(response.body[initialBlogs.length].likes).toBe(0)
+
 })
 
 afterAll(() => {
