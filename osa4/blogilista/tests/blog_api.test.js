@@ -74,8 +74,29 @@ test('id field has right format', async () => {
     */
 
     const blogs = await Blog.find({})
-    console.log(blogs)
     expect(blogs[0].id).toBeDefined();
+})
+
+test('amount of blogs rises by one when posting new blog', async () => {
+    const newBlog = {
+        title: "The Art of Adding Blogs",
+        author: "Erno Venäläinen",
+        url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
+        likes: 16
+    }
+
+    await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(200)
+    .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+
+    const titles = response.body.map(r => r.title)
+
+    expect(response.body).toHaveLength(initialBlogs.length + 1)
+    expect(titles).toContain('The Art of Adding Blogs')
 })
 
 afterAll(() => {
