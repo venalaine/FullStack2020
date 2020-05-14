@@ -135,7 +135,6 @@ test('title and url are mandatory', async () => {
     .post('/api/blogs')
     .send(newBlog2)
     .expect(400)
-
     
 })
 
