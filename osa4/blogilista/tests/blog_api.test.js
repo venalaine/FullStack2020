@@ -77,7 +77,8 @@ test('amount of blogs rises by one when posting new blog', async () => {
         title: "The Art of Adding Blogs",
         author: "Erno Venäläinen",
         url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
-        likes: 16
+        likes: 16,
+        userId: "5ec741dba321ca15ac0fae69"
     }
 
     await api
