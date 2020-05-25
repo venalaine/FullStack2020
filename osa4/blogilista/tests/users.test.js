@@ -11,8 +11,7 @@ describe('when there is one user in database', () => {
   beforeEach(async () => {
     await User.deleteMany({})
 
-    const passwordHash = await bcrypt.hash('secret', 10)
-    const user = new User({ username: 'user', name: 'User Name', passwordHash })
+    const user = new User({ username: 'user', name: 'User Name', password: 'pass' })
 
     await user.save()
   })

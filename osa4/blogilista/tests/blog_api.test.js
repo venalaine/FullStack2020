@@ -73,26 +73,29 @@ test('id field has right format', async () => {
 })
 
 test('amount of blogs rises by one when posting new blog', async () => {
+
     const newBlog = {
         title: "The Art of Adding Blogs",
         author: "Erno Venäläinen",
         url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
-        likes: 16,
-        userId: "5ec741dba321ca15ac0fae69"
+        likes: 16
     }
 
     await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
+    
+   
     const response = await api.get('/api/blogs')
 
     const titles = response.body.map(r => r.title)
 
     expect(response.body).toHaveLength(initialBlogs.length + 1)
+
     expect(titles).toContain('The Art of Adding Blogs')
+
 })
 
 test('likes should be 0 if no value inserted', async () => {
@@ -104,10 +107,10 @@ test('likes should be 0 if no value inserted', async () => {
     }
 
     await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(200)
+        .expect('Content-Type', /application\/json/)
 
     const response = await api.get('/api/blogs')
 
@@ -123,9 +126,9 @@ test('title and url are mandatory', async () => {
     }
 
     await api
-    .post('/api/blogs')
-    .send(newBlog1)
-    .expect(400)
+        .post('/api/blogs')
+        .send(newBlog1)
+        .expect(400)
 
     const newBlog2 = {
         title: "Writing blogs without url info",
@@ -134,10 +137,10 @@ test('title and url are mandatory', async () => {
     }
 
     await api
-    .post('/api/blogs')
-    .send(newBlog2)
-    .expect(400)
-    
+        .post('/api/blogs')
+        .send(newBlog2)
+        .expect(400)
+
 })
 
 afterAll(() => {
