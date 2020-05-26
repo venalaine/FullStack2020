@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
-
+const User = require('../models/user')
 
 const api = supertest(app)
 
@@ -45,6 +45,12 @@ const initialBlogs = [
     }
 ]
 
+const intialUser = {
+    username: "uniikki",
+    name: "uniikki",
+    password: "uniikki"
+}
+
 beforeEach(async () => {
     await Blog.deleteMany({})
 
@@ -73,32 +79,53 @@ test('id field has right format', async () => {
 })
 
 test('amount of blogs rises by one when posting new blog', async () => {
+    await User.deleteMany({})
+
+    await api
+        .post('/api/users')
+        .send(intialUser)
+
+    const loggedUser = await api
+        .post('/api/login')
+        .send({ "username": intialUser.username, "password": intialUser.password })
+
+    const token = "bearer " + loggedUser.body.token
 
     const newBlog = {
         title: "The Art of Adding Blogs",
-        author: "Erno Venäläinen",
-        url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
+        author: "Uniikki",
+        url: "https://testi.fi",
         likes: 16
     }
 
     await api
         .post('/api/blogs')
         .send(newBlog)
+        .set({ Authorization: token })
         .expect(200)
         .expect('Content-Type', /application\/json/)
-    
-   
+
+
     const response = await api.get('/api/blogs')
-
     const titles = response.body.map(r => r.title)
-
     expect(response.body).toHaveLength(initialBlogs.length + 1)
-
     expect(titles).toContain('The Art of Adding Blogs')
 
 })
 
 test('likes should be 0 if no value inserted', async () => {
+    await User.deleteMany({})
+
+    await api
+        .post('/api/users')
+        .send(intialUser)
+
+    const loggedUser = await api
+        .post('/api/login')
+        .send({ "username": intialUser.username, "password": intialUser.password })
+
+    const token = "bearer " + loggedUser.body.token
+
     const newBlog = {
         title: "How to have no likes",
         author: "Erno Venäläinen",
@@ -109,6 +136,7 @@ test('likes should be 0 if no value inserted', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog)
+        .set({ Authorization: token })
         .expect(200)
         .expect('Content-Type', /application\/json/)
 
@@ -119,6 +147,18 @@ test('likes should be 0 if no value inserted', async () => {
 })
 
 test('title and url are mandatory', async () => {
+    await User.deleteMany({})
+
+    await api
+        .post('/api/users')
+        .send(intialUser)
+
+    const loggedUser = await api
+        .post('/api/login')
+        .send({ "username": intialUser.username, "password": intialUser.password })
+
+    const token = "bearer " + loggedUser.body.token
+
     const newBlog1 = {
         author: "Erno Venäläinen",
         url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
@@ -128,7 +168,20 @@ test('title and url are mandatory', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog1)
+        .set({ Authorization: token })
         .expect(400)
+
+    await User.deleteMany({})
+
+    await api
+        .post('/api/users')
+        .send(intialUser)
+
+    const loggedUser2 = await api
+        .post('/api/login')
+        .send({ "username": intialUser.username, "password": intialUser.password })
+
+    const token2 = "bearer " + loggedUser2.body.token
 
     const newBlog2 = {
         title: "Writing blogs without url info",
@@ -139,7 +192,27 @@ test('title and url are mandatory', async () => {
     await api
         .post('/api/blogs')
         .send(newBlog2)
+        .set({ Authorization: token2 })
         .expect(400)
+
+})
+
+test('post without token is not allowed', async () => {
+
+    const newBlog = {
+        title: "How to post without token",
+        author: "Erno Venäläinen",
+        url: "https://github.com/venalaine/FullStack2020/tree/master/osa4/blogilista",
+        likes: ""
+    }
+
+    const result = await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+        .expect('Content-Type', /application\/json/)
+
+    expect(result.body.error).toContain('invalid token')
 
 })
 
