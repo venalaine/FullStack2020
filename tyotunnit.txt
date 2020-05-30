@@ -3,4 +3,4 @@ osa1: 10h
 osa2: 23,5h
 osa3: 18,5h
 osa4: 17,5h
-osa5: 1h
+osa5: 1,5h
