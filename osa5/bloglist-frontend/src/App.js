@@ -14,6 +14,10 @@ const App = () => {
   const [url, setUrl] = useState('')
   const [errorMessage, setErrorMessage] = useState(null)
   const [message, setMessage] = useState(null)
+  const [blogPostVisible, setBlogPostVisible] = useState(false)
+
+  const hideWhenVisible = { display: blogPostVisible ? 'none' : '' }
+  const showWhenVisible = { display: blogPostVisible ? '' : 'none' }
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -60,27 +64,30 @@ const App = () => {
 
   const handleBlogPost = async (event) => {
     event.preventDefault()
+
     const blogObject = {
-      title : title,
-      author : author,
-      url : url,
-      likes : ''
+      title: title,
+      author: author,
+      url: url,
+      likes: ''
     }
 
     blogService
-    .create(blogObject)
-    .then(returnedBlog => {
-      setBlogs(blogs.concat(returnedBlog))
-    })
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+      })
     setTitle('')
     setAuthor('')
-    setUrl('')    
+    setUrl('')
+    setBlogPostVisible(false)
     let messageText = `A new blog ${title} by ${author} added`
     setMessage(messageText)
     setTimeout(() => {
       setMessage(null)
-    }, 2000) 
+    }, 2000)
   }
+
 
   if (user === null) {
     return (
@@ -117,9 +124,13 @@ const App = () => {
       <h2>Blogs</h2>
       <Notification message={message} />
       <p>{user.name} logged in <button onClick={handleLogOut}>Log out</button> </p>
-      <h2>Create New Blog</h2>
-      <form onSubmit={handleBlogPost}>
-      <div>
+      <div style={hideWhenVisible}>
+        <button onClick={() => setBlogPostVisible(true)}>Create new</button>
+      </div>
+      <div style={showWhenVisible}>
+        <h2>Create New Blog</h2>
+        <form onSubmit={handleBlogPost}>
+          <div>
             Title:
             <input
               type="text"
@@ -147,8 +158,12 @@ const App = () => {
             />
           </div>
           <br />
-          <button type="submit">Create</button>
-      </form>
+          <button type="submit">Add</button>
+        </form>
+      </div>
+      <div style={showWhenVisible}>
+        <button onClick={() => setBlogPostVisible(false)}>Cancel</button>
+      </div>
       <br />
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
