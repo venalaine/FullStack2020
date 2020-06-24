@@ -67,12 +67,24 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
       })
 
-      let messageText = `A new blog ${blogObject.title} by ${blogObject.author} added`
-      setMessage(messageText)
-      setTimeout(() => {
-        setMessage(null)
-      }, 2000)
-      
+    let messageText = `A new blog ${blogObject.title} by ${blogObject.author} added`
+    setMessage(messageText)
+    setTimeout(() => {
+      setMessage(null)
+    }, 2000)
+
+  }
+
+  const showBlogs = () => {
+    blogs.sort((a, b) => b.likes - a.likes);
+    return (
+      <div>
+        {blogs.map(blog =>
+          <Blog key={blog.id} blog={blog} />
+        )}
+      </div>
+    )
+
   }
 
   if (user === null) {
@@ -114,15 +126,13 @@ const App = () => {
         <button onClick={() => setBlogPostVisible(true)}>Create new</button>
       </div>
       <div style={showWhenVisible}>
-      <BlogForm createBlog = {addBlog} />
+        <BlogForm createBlog={addBlog} />
       </div>
       <div style={showWhenVisible}>
         <button onClick={() => setBlogPostVisible(false)}>Cancel</button>
       </div>
       <br />
-      {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
-      )}
+      {showBlogs()}
     </div>
   )
 }
