@@ -32,6 +32,14 @@ const App = () => {
     }
   }, [])
 
+  const onLike = (id) => {
+    setBlogs(blogs.map(blog => blog.id === id ? {...blog, likes:blog.likes+1} : blog))
+  }
+
+  const onDelete = (id) => {
+    setBlogs(blogs.filter(blog => blog.id !== id))
+  }
+
   const handleLogOut = () => {
     setUser(null)
     window.localStorage.removeItem('loggedUser')
@@ -80,7 +88,7 @@ const App = () => {
     return (
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} />
+          <Blog key={blog.id} blog={blog} user={user} onLike={onLike} onDelete={onDelete} />
         )}
       </div>
     )
