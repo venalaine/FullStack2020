@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({ blog }) => {
+
+const Blog = ({ blog, user }) => {
   const [showFull, setShowFull] = useState(false)
-  let [likes, setLikes] = useState(blog.likes)
-  
+  const [likes, setLikes] = useState(blog.likes)
+
   const addLikes = () => {
     const blogToUpdate = {
       id: blog.id,
@@ -16,9 +17,33 @@ const Blog = ({ blog }) => {
     }
 
     blogService.update(blogToUpdate)
-    
     setLikes(likes + 1)
 
+  }
+
+  const removeBlog = () => {
+    const blogToRemove = {
+      id: blog.id,
+      user: blog.user.id,
+      title: blog.title,
+      author: blog.author,
+    }
+
+    const confirm = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}?`)
+
+    if (confirm) {
+      blogService.remove(blogToRemove)
+    }
+  }
+
+  const deleteButton = () => {
+    if (user.username === blog.user.username) {
+      return (
+        <div>
+          <button onClick={removeBlog}>Remove</button>
+        </div>
+      )
+    }
   }
 
   const blogStyle = {
@@ -49,6 +74,8 @@ const Blog = ({ blog }) => {
         {likes} <button onClick={addLikes}> Like </button>
         <br />
         {blog.user.username}
+        <br />
+        {deleteButton()}
       </div>
     )
   }
