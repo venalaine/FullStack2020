@@ -33,7 +33,7 @@ const App = () => {
   }, [])
 
   const onLike = (id) => {
-    setBlogs(blogs.map(blog => blog.id === id ? {...blog, likes:blog.likes+1} : blog))
+    setBlogs(blogs.map(blog => blog.id === id ? { ...blog, likes:blog.likes+1 } : blog))
   }
 
   const onDelete = (id) => {
@@ -84,7 +84,7 @@ const App = () => {
   }
 
   const showBlogs = () => {
-    blogs.sort((a, b) => b.likes - a.likes);
+    blogs.sort((a, b) => b.likes - a.likes)
     return (
       <div>
         {blogs.map(blog =>

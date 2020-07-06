@@ -30,7 +30,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
     }
 
     onDelete(blogToRemove.id)
-    
+
   }
 
   const deleteButton = () => {
