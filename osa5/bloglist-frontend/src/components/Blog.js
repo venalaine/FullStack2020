@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
-
+import PropTypes from 'prop-types'
 
 const Blog = ({ blog, user, onLike, onDelete }) => {
   const [showFull, setShowFull] = useState(false)
-
 
   const addLikes = () => {
     const blogToUpdate = {
@@ -77,6 +76,13 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
       </div>
     )
   }
+}
+
+Blog.propTypes = {
+  blog: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  onLike: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired
 }
 
 export default Blog
