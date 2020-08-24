@@ -67,7 +67,7 @@ const BlogForm = ({ createBlog }) => {
           />
         </div>
         <br />
-        <button type="submit">Add</button>
+        <button id="add-button" type="submit">Add</button>
       </form>
     </div>
   )
