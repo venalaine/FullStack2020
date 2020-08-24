@@ -39,7 +39,7 @@ describe('Blog app', function () {
     })
   })
 
-  describe('When logged in', function() {
+  describe.only('When logged in', function() {
     beforeEach(function() {
       cy.get('#username').type('teppo')
       cy.get('#password').type('teppo')
@@ -56,8 +56,27 @@ describe('Blog app', function () {
       cy.get('#add-button').click()
 
       cy.contains('Test title')
-      cy.contains('View')
+      cy.get('#view-button')
     })
+
+    it('A blog can be liked', function() {
+
+      cy.get('#create-new-button').click()
+
+      cy.get('#title').type('Test title')
+      cy.get('#author').type('Teppo')
+      cy.get('#url').type('www.example.fi')
+
+      cy.get('#add-button').click()
+
+      cy.get('#view-button').click()
+
+      cy.get('#like-button').click()
+
+      cy.contains('Likes 1')
+
+    })
+
   })
 
 })
