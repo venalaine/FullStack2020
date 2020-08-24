@@ -1,4 +1,4 @@
-import React, { useReducer } from 'react'
+import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
@@ -99,3 +99,4 @@ test('like button works right way', () => {
   expect(mockHandler.mock.calls).toHaveLength(2)
 
 })
+
