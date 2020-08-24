@@ -34,10 +34,12 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
   }
 
   const deleteButton = () => {
-    if (user.username === blog.user.username) {
+    console.log(user)
+    console.log(blog.user)
+    if (user.name === blog.user.name) {
       return (
         <div>
-          <button onClick={removeBlog}>Remove</button>
+          <button id="delete-button" onClick={removeBlog}>Remove</button>
         </div>
       )
     }
@@ -68,7 +70,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
         <br />
         {blog.url}
         <br />
-        Likes {blog.likes} <button id="like-button" onClick={addLikes}> Like </button>
+        {blog.likes} likes <button id="like-button" onClick={addLikes}> Like </button>
         <br />
         {blog.user.username}
         <br />

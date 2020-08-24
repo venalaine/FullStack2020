@@ -80,7 +80,6 @@ const App = () => {
     setTimeout(() => {
       setMessage(null)
     }, 2000)
-
   }
 
   const showBlogs = () => {
@@ -92,7 +91,6 @@ const App = () => {
         )}
       </div>
     )
-
   }
 
   if (user === null) {

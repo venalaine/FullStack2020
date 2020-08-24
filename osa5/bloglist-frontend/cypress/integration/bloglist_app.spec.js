@@ -73,7 +73,25 @@ describe('Blog app', function () {
 
       cy.get('#like-button').click()
 
-      cy.contains('Likes 1')
+      cy.contains('1 likes')
+
+    })
+
+    it('A blog can be deleted', function() {
+
+      cy.get('#create-new-button').click()
+
+      cy.get('#title').type('Test title')
+      cy.get('#author').type('Teppo')
+      cy.get('#url').type('www.example.fi')
+
+      cy.get('#add-button').click()
+
+      cy.get('#view-button').click()
+
+      cy.get('#delete-button').click()
+
+      cy.get('html').should('not.contain', 'Test title')
 
     })
 
