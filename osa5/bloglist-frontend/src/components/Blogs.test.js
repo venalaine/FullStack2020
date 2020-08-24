@@ -3,6 +3,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
+
 test('render right content', () => {
 
   const blog = {
@@ -15,8 +16,6 @@ test('render right content', () => {
   const component = render(
     <Blog blog={blog} />
   )
-
-  component.debug()
 
   expect(component.container).toHaveTextContent(
     'title of the blog',
@@ -57,7 +56,6 @@ test('after buttton click there is more content rendered', () => {
   const button = component.getByText('View')
   fireEvent.click(button)
 
-  component.debug()
 
   expect(component.container).toHaveTextContent(
     'www.example.fi',
@@ -67,5 +65,37 @@ test('after buttton click there is more content rendered', () => {
     '100',
   )
 
+})
+
+test('like button works right way', () => {
+
+  const user = {
+    id: 1,
+    username: 'Testimies',
+  }
+
+  const blog = {
+    title: 'title of the blog',
+    author: 'Antti Author',
+    url: 'www.example.fi',
+    likes: 100,
+    user: user,
+    id: 1,
+  }
+
+  const mockHandler = jest.fn()
+
+  const component = render(
+    <Blog blog={blog} user={user} onLike={mockHandler} />
+  )
+
+  const button = component.getByText('View')
+  fireEvent.click(button)
+
+  const button2 = component.getByText('Like')
+  fireEvent.click(button2)
+  fireEvent.click(button2)
+
+  expect(mockHandler.mock.calls).toHaveLength(2)
 
 })

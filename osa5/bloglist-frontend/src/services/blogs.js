@@ -22,7 +22,7 @@ const create = async newObject => {
 }
 
 const update = async objectToUpdate => {
-  
+
   const config = {
     headers: { Authorization: token },
   }
