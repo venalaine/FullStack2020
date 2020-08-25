@@ -39,7 +39,7 @@ describe('Blog app', function () {
     })
   })
 
-  describe.only('When logged in', function() {
+  describe('When logged in', function() {
     beforeEach(function() {
       cy.get('#username').type('teppo')
       cy.get('#password').type('teppo')
@@ -92,6 +92,34 @@ describe('Blog app', function () {
       cy.get('#delete-button').click()
 
       cy.get('html').should('not.contain', 'Test title')
+
+    })
+
+    it('Blogs are ordered based on likes', function() {
+
+      cy.get('#create-new-button').click()
+      cy.get('#title').type('First Blog')
+      cy.get('#author').type('Teppo')
+      cy.get('#url').type('www.firstblog.fi')
+      cy.get('#add-button').click()
+
+      cy.get('#title').type('Second Blog')
+      cy.get('#author').type('Teppo')
+      cy.get('#url').type('www.secondblog.fi')
+      cy.get('#add-button').click()
+
+      cy.get('#closedBlog').contains('View').click()
+      cy.get('#closedBlog').contains('View').click()
+
+      cy.contains('First Blog').parent().find('#hide-button').click()
+
+      cy.get('#like-button').as('btnlike')
+      cy.get('@btnlike').click()
+      cy.get('@btnlike').click()
+
+      cy.get('#closedBlog').contains('View').click()
+
+      cy.get('#openedBlog').contains('2 likes')
 
     })
 

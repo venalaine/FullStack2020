@@ -55,7 +55,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
 
   if (showFull === false) {
     return (
-      <div style={blogStyle}>
+      <div id="closedBlog" style={blogStyle}>
         {blog.title} {blog.author} <button id="view-button" onClick={() => setShowFull(true)
         }>View</button>
       </div>
@@ -64,8 +64,8 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
 
   else {
     return (
-      <div style={blogStyle}>
-        {blog.title} {blog.author} <button onClick={() => setShowFull(false)
+      <div id="openedBlog" style={blogStyle}>
+        {blog.title} {blog.author} <button id="hide-button" onClick={() => setShowFull(false)
         }>Hide</button>
         <br />
         {blog.url}
