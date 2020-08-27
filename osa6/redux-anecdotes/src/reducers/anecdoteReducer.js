@@ -1,3 +1,4 @@
+import anecdoteService from '../services/anecdotes'
 /*
 const anecdotesAtStart = [
   'If it hurts, do it more often',
@@ -22,7 +23,7 @@ const initialState = anecdotesAtStart.map(asObject)
 */
 
 const anecdoteReducer = (state = [], action) => {
-
+  console.log(action.data)
   switch (action.type) {
 
     case 'VOTE_ANECDOTE':
@@ -64,11 +65,22 @@ export const addAnecdoteAction = (content) => {
     }
   }
 }
-
+/*
 export const initializeAnecdotes = (anecdotes) => {
   return {
     type: 'INITIALIZE',
     data: anecdotes
+  }
+}
+*/
+
+export const initializeAnecdotes = () => {
+  return async dispatch => {
+    const anecdotes = anecdoteService.getAll()
+    dispatch({
+      type: 'INITIALIZE',
+      data: anecdotes,
+    })
   }
 }
 

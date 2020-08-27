@@ -21,6 +21,7 @@ const AnecdoteList = () => {
     const dispatch = useDispatch()
 
     const anecdotes = useSelector(({ filter, anecdotes }) => {
+     
         if (filter === null) {
             return anecdotes
         }
@@ -35,6 +36,7 @@ const AnecdoteList = () => {
     anecdotes.sort((a, b) => b.votes - a.votes)
 
     return (
+        
         <div>
             <h2>List of Anecdotes</h2>
             {anecdotes.map(anecdote =>
@@ -44,6 +46,7 @@ const AnecdoteList = () => {
                 handleClick={()=> dispatch(voteAction(anecdote.id), dispatch(addNotificationAction(anecdote.content)))}
                 />)}
         </div>
+
     )
 }
 
