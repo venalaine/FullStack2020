@@ -15,6 +15,7 @@ const Notification = () => {
 
   const renderNotification = () => {
     if (notification !== null) {
+
       setTimeout(() => {
         dispatch(removeNotificationAction())
       }, 5000)
@@ -25,14 +26,6 @@ const Notification = () => {
         </div>
       )
     }
-
-    else {
-      return (
-        <div>
-        </div>
-      )
-    }
-
   }
 
   return (
