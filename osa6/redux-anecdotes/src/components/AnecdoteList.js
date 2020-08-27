@@ -28,7 +28,6 @@ const AnecdoteList = () => {
 
         else {
             const filteredAnecdotes = anecdotes.filter(anecdote => anecdote.content.toLowerCase().includes(filter.toLowerCase()))
-
             return filteredAnecdotes
         }
     })

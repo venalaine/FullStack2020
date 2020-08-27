@@ -18,8 +18,7 @@ const AnecdoteForm = () => {
             dispatch(addAnecdoteAction(newAnecdote.content))
             dispatch(addNotificationAction(newAnecdote.content))
         }
-
-        
+                
     }
 
 
