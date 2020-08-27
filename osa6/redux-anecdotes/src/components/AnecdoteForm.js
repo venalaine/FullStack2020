@@ -13,12 +13,10 @@ const AnecdoteForm = () => {
         event.target.anecdote.value = ''
         
         if (content !== '') {
-
-            const newAnecdote = await anecdoteService.createNew(content)
-            dispatch(addAnecdoteAction(newAnecdote.content))
-            dispatch(addNotificationAction(newAnecdote.content))
+            dispatch(addAnecdoteAction(content))
+            dispatch(addNotificationAction(content))
         }
-                
+
     }
 
 
