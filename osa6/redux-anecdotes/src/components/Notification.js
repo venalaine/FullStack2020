@@ -1,11 +1,10 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { removeNotificationAction } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const Notification = () => {
-  const dispatch = useDispatch()
+const Notification = (props) => {
+  console.log('mitä luuraa propseissa', props)
 
-  const notification = useSelector(state => state.notifications)
 
   const style = {
     border: 'solid',
@@ -14,15 +13,15 @@ const Notification = () => {
   }
 
   const renderNotification = () => {
-    if (notification !== null) {
+    if (props.notification !== null) {
 
       setTimeout(() => {
-        dispatch(removeNotificationAction())
-      }, notification.time)
+        props.removeNotificationAction()
+      }, props.notification.time)
 
       return (
         <div style={style}>
-          {notification.text}
+          {props.notification.text}
         </div>
       )
     }
@@ -36,4 +35,15 @@ const Notification = () => {
 
 }
 
-export default Notification
+const mapStateToProps = (state) => {
+  return {
+    notification: state.notifications
+  }
+}
+
+const mapDispatchToProps = {
+  removeNotificationAction
+}
+
+const ConnectedNotification = connect(mapStateToProps, mapDispatchToProps)(Notification)
+export default ConnectedNotification
