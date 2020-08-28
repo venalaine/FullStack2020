@@ -14,14 +14,11 @@ const createNew = async (content) => {
 }
 
 const updateVote = async (anecdote) => {
-
-  console.log('updateVotessa ollaan', anecdote)
   const object = {
     ...anecdote,
     votes: anecdote.votes + 1
   }
 
-  console.log('tämä on päivitettävä objekti', object)
   const response = await axios.put(baseUrl + '/' + object.id, object)
   return response.data
 }

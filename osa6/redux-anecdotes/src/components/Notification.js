@@ -3,8 +3,6 @@ import { removeNotificationAction } from '../reducers/notificationReducer'
 import { connect } from 'react-redux'
 
 const Notification = (props) => {
-  console.log('mitä luuraa propseissa', props)
-
 
   const style = {
     border: 'solid',
