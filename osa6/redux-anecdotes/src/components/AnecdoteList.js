@@ -42,7 +42,7 @@ const AnecdoteList = () => {
                 <Anecdote 
                 key={anecdote.id}
                 anecdote={anecdote}
-                handleClick={()=> dispatch(voteAction(anecdote), dispatch(addNotificationAction(anecdote.content)))}
+                handleClick={()=> dispatch(voteAction(anecdote), dispatch(addNotificationAction(`You votet '${anecdote.content}'`, 5000)))}
                 />)}
         </div>
         

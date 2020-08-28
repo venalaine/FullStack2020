@@ -18,11 +18,11 @@ const Notification = () => {
 
       setTimeout(() => {
         dispatch(removeNotificationAction())
-      }, 5000)
+      }, notification.time)
 
       return (
         <div style={style}>
-          {notification}
+          {notification.text}
         </div>
       )
     }

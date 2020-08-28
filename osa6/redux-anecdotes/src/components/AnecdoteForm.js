@@ -14,7 +14,7 @@ const AnecdoteForm = () => {
         
         if (content !== '') {
             dispatch(addAnecdoteAction(content))
-            dispatch(addNotificationAction(content))
+            dispatch(addNotificationAction(`You added '${content}'`, 5000))
         }
 
     }

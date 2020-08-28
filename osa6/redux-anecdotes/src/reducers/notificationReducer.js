@@ -4,7 +4,7 @@ const notificationReducer = (state = initialState, action) => {
 
     switch (action.type) {
         case 'ADD_NOTIFICATION':
-            return action.data.notification
+            return action.data
         case 'REMOVE_NOTIFICATION':
             return action.data.notification
         default:
@@ -12,12 +12,15 @@ const notificationReducer = (state = initialState, action) => {
     }
 }
 
-export const addNotificationAction = (notification) => {
-    return {
-        type: 'ADD_NOTIFICATION',
-        data: {
-            notification: notification
-        } 
+export const addNotificationAction = (text, time) => {
+    return async dispatch => {
+        dispatch({
+            type: 'ADD_NOTIFICATION',
+            data: {
+                text: text,
+                time: time
+            }
+        })
     }
 }
 
