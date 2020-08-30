@@ -12,21 +12,12 @@ const Notification = (props) => {
 
   const renderNotification = () => {
     if (props.notification !== null) {
-
-      setTimeout(() => {
-        props.removeNotificationAction()
-      }, props.notification.time)
-
-      return (
-        <div style={style}>
-          {props.notification.text}
-        </div>
-      )
+      return props.notification.text
     }
   }
 
   return (
-    <div>
+    <div style={style}>
       {renderNotification()}
     </div>
   )

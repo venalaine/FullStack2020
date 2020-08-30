@@ -1,4 +1,5 @@
 const initialState = null
+let timer = null
 
 const notificationReducer = (state = initialState, action) => {
 
@@ -13,6 +14,7 @@ const notificationReducer = (state = initialState, action) => {
 }
 
 export const addNotificationAction = (text, time) => {
+    clearTimeout(timer)
     return async dispatch => {
         dispatch({
             type: 'ADD_NOTIFICATION',
@@ -21,6 +23,10 @@ export const addNotificationAction = (text, time) => {
                 time: time
             }
         })
+
+        timer = setTimeout(() => {
+            dispatch(removeNotificationAction())
+          }, time)
     }
 }
 
@@ -34,3 +40,4 @@ export const removeNotificationAction = () => {
 }
 
 export default notificationReducer
+
