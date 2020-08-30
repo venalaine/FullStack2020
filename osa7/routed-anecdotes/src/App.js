@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Switch, Route, Link
+  Switch, Route, Link, useParams
 } from "react-router-dom"
 
+/*
 const Menu = () => {
   const padding = {
     paddingRight: 5
@@ -18,12 +19,25 @@ const Menu = () => {
     </div>
   )
 }
+*/
+
+const Anecdote = ({ anecdotes }) => {
+  console.log(anecdotes)
+  const id = useParams().id
+  const anecdote = anecdotes.find(anecdote => anecdote.id === id)
+  return (
+    <div>
+      <h2>{anecdote.content}</h2>
+      has {anecdote.votes} votes
+    </div>
+  )
+}
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote => <li key={anecdote.id}> <Link to={`/anecdotes/${anecdote.id}`} >{anecdote.content}</Link> </li>)}
     </ul>
   </div>
 )
@@ -135,7 +149,6 @@ const App = () => {
   return (
     <div>
       <Router>
-
         <h1>Software anecdotes</h1>
         <div>
           <Link style={padding} to="/">anecdotes</Link>
@@ -145,6 +158,9 @@ const App = () => {
 
 
         <Switch>
+          <Route path="/anecdotes/:id">
+            <Anecdote anecdotes={anecdotes} />
+          </Route>
           <Route path="/create">
             <CreateNew addNew={addNew} />
           </Route>
@@ -155,9 +171,12 @@ const App = () => {
             <AnecdoteList anecdotes={anecdotes} />
           </Route>
         </Switch>
-        <Footer />
       </Router>
-      
+      <div>
+        <br/>
+        <Footer />
+      </div>
+
     </div>
   )
 }
