@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import {
   BrowserRouter as Router,
-  Switch, Route, Link, useParams
+  Switch, Route, Link, useParams, Redirect
 } from "react-router-dom"
 
 /*
@@ -32,8 +32,9 @@ const Anecdote = ({ anecdotes }) => {
   )
 }
 
-const AnecdoteList = ({ anecdotes }) => (
+const AnecdoteList = ({ anecdotes, notification }) => (
   <div>
+    {notification}
     <h2>Anecdotes</h2>
     <ul>
       {anecdotes.map(anecdote => <li key={anecdote.id}> <Link to={`/anecdotes/${anecdote.id}`} >{anecdote.content}</Link> </li>)}
@@ -125,6 +126,10 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = (Math.random() * 10000).toFixed(0)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`A new anecdote "${anecdote.content}" created`)
+    setTimeout(()=> {
+      setNotification('')
+    }, 10000)
   }
 
   const anecdoteById = (id) =>
@@ -158,7 +163,7 @@ const App = () => {
 
         <Switch>
           <Route path="/create">
-            <CreateNew addNew={addNew} />
+            {notification === '' ? <CreateNew addNew={addNew} /> : <Redirect to="/"/>}
           </Route>
           <Route path="/about">
             <About />
@@ -167,7 +172,7 @@ const App = () => {
             <Anecdote anecdotes={anecdotes} />
           </Route>
           <Route path="/">
-            <AnecdoteList anecdotes={anecdotes} />
+            <AnecdoteList anecdotes={anecdotes} notification={notification} />
           </Route>
         </Switch>
       </Router>
