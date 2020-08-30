@@ -22,7 +22,6 @@ const Menu = () => {
 */
 
 const Anecdote = ({ anecdotes }) => {
-  console.log(anecdotes)
   const id = useParams().id
   const anecdote = anecdotes.find(anecdote => anecdote.id === id)
   return (
@@ -158,14 +157,14 @@ const App = () => {
 
 
         <Switch>
-          <Route path="/anecdotes/:id">
-            <Anecdote anecdotes={anecdotes} />
-          </Route>
           <Route path="/create">
             <CreateNew addNew={addNew} />
           </Route>
           <Route path="/about">
             <About />
+          </Route>
+          <Route path="/anecdotes/:id">
+            <Anecdote anecdotes={anecdotes} />
           </Route>
           <Route path="/">
             <AnecdoteList anecdotes={anecdotes} />
