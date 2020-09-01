@@ -4,18 +4,23 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
+import { useDispatch } from 'react-redux'
+import { addNotificationAction } from './reducers/notificationReducer'
+
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [message, setMessage] = useState(null)
+//  const [errorMessage, setErrorMessage] = useState(null)
+//  const [message, setMessage] = useState(null)
   const [blogPostVisible, setBlogPostVisible] = useState(false)
 
   const hideWhenVisible = { display: blogPostVisible ? 'none' : '' }
   const showWhenVisible = { display: blogPostVisible ? '' : 'none' }
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -33,7 +38,7 @@ const App = () => {
   }, [])
 
   const onLike = (id) => {
-    setBlogs(blogs.map(blog => blog.id === id ? { ...blog, likes:blog.likes+1 } : blog))
+    setBlogs(blogs.map(blog => blog.id === id ? { ...blog, likes: blog.likes + 1 } : blog))
   }
 
   const onDelete = (id) => {
@@ -61,10 +66,11 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      setErrorMessage('Wrong username or password')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 2000)
+      //      setErrorMessage('Wrong username or password')
+      //      setTimeout(() => {
+      //        setErrorMessage(null)
+      //      }, 2000)
+      dispatch(addNotificationAction('Wrong username or password', 5000))
     }
   }
 
@@ -76,10 +82,11 @@ const App = () => {
       })
 
     let messageText = `A new blog ${blogObject.title} by ${blogObject.author} added`
-    setMessage(messageText)
-    setTimeout(() => {
-      setMessage(null)
-    }, 2000)
+    //    setMessage(messageText)
+    //    setTimeout(() => {
+    //      setMessage(null)
+    //    }, 2000)
+    dispatch(addNotificationAction(messageText, 2000))
   }
 
   const showBlogs = () => {
@@ -97,7 +104,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification message={errorMessage} />
+        <Notification  />
         <form onSubmit={handleLogin}>
           <div>
             username
@@ -128,7 +135,7 @@ const App = () => {
   return (
     <div>
       <h2>Blogs</h2>
-      <Notification message={message} />
+      <Notification />
       <p>{user.name} logged in <button onClick={handleLogOut}>Log out</button> </p>
       <div style={hideWhenVisible}>
         <button id="create-new-button" onClick={() => setBlogPostVisible(true)}>Create new</button>

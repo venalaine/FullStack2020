@@ -1,8 +1,13 @@
 import React from 'react'
-import PropTypes from 'prop-types'
+import { useSelector } from 'react-redux'
+// import { removeNotificationAction } from '../reducers/notificationReducer'
 
-const Notification = ({ message }) => {
-  if (message === null) {
+
+const Notification = () => {
+
+  const notification = useSelector(state => state)
+
+  if (notification === null) {
     return null
   }
 
@@ -18,13 +23,10 @@ const Notification = ({ message }) => {
 
   return (
     <div className="error" style={notificationStyle}>
-      {message}
+      {notification.text}
     </div>
   )
 }
 
-Notification.propTypes = {
-  message: PropTypes.string
-}
 
 export default Notification
