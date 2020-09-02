@@ -6,16 +6,13 @@ import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNotificationAction } from './reducers/notificationReducer'
-import { addBlogAction, initialBlogsAction } from './reducers/blogReducer'
+import { initialBlogsAction, addBlogAction } from './reducers/blogReducer'
 
 
 const App = () => {
-  // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  //  const [errorMessage, setErrorMessage] = useState(null)
-  //  const [message, setMessage] = useState(null)
   const [blogPostVisible, setBlogPostVisible] = useState(false)
 
   const hideWhenVisible = { display: blogPostVisible ? 'none' : '' }
@@ -25,9 +22,6 @@ const App = () => {
   const blogs = useSelector(state => state.blogs)
 
   useEffect(() => {
-    //  blogService.getAll().then(blogs =>
-    //    setBlogs(blogs)
-    //  )
     dispatch(initialBlogsAction())
   }, [dispatch])
 
@@ -39,10 +33,6 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
-
-  const onLike = (id) => {
-    // setBlogs(blogs.map(blog => blog.id === id ? { ...blog, likes: blog.likes + 1 } : blog))
-  }
 
   const onDelete = (id) => {
     // setBlogs(blogs.filter(blog => blog.id !== id))
@@ -69,28 +59,14 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch (exception) {
-      //      setErrorMessage('Wrong username or password')
-      //      setTimeout(() => {
-      //        setErrorMessage(null)
-      //      }, 2000)
       dispatch(addNotificationAction('Wrong username or password', 5000))
     }
   }
 
   const addBlog = (blogObject) => {
-    //blogService
-    //  .create(blogObject)
-    //  .then(returnedBlog => {
-    // setBlogs(blogs.concat(returnedBlog))
-    //  })
 
     dispatch(addBlogAction(blogObject))
-
     let messageText = `A new blog ${blogObject.title} by ${blogObject.author} added`
-    //    setMessage(messageText)
-    //    setTimeout(() => {
-    //      setMessage(null)
-    //    }, 2000)
     dispatch(addNotificationAction(messageText, 2000))
   }
 
@@ -99,7 +75,7 @@ const App = () => {
     return (
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} onLike={onLike} onDelete={onDelete} />
+          <Blog key={blog.id} blog={blog} user={user} onDelete={onDelete} />
         )}
       </div>
     )

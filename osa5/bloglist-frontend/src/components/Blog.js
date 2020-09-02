@@ -1,18 +1,15 @@
 import React, { useState } from 'react'
 import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
+import { useDispatch } from 'react-redux'
+import { likeBlogAction } from '../reducers/blogReducer'
 
-const Blog = ({ blog, user, onLike, onDelete }) => {
+const Blog = ({ blog, user, onDelete }) => {
   const [showFull, setShowFull] = useState(false)
+  const dispatch = useDispatch()
 
   const addLikes = () => {
-    const blogToUpdate = {
-      ...blog,
-      likes: blog.likes + 1
-    }
-
-    blogService.update(blogToUpdate)
-    onLike(blogToUpdate.id)
+    dispatch(likeBlogAction(blog))
   }
 
   const removeBlog = () => {
@@ -34,9 +31,7 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
   }
 
   const deleteButton = () => {
-    console.log(user)
-    console.log(blog.user)
-    if (user.name === blog.user.name) {
+    if (user.name === blog.user.username) {
       return (
         <div>
           <button id="delete-button" onClick={removeBlog}>Remove</button>
@@ -83,7 +78,6 @@ const Blog = ({ blog, user, onLike, onDelete }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  onLike: PropTypes.func.isRequired,
   onDelete: PropTypes.func.isRequired
 }
 

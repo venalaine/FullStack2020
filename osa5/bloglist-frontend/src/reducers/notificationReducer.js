@@ -1,3 +1,4 @@
+/* eslint-disable indent */
 const initialState = null
 let timer = null
 

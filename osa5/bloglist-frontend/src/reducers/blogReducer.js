@@ -7,15 +7,14 @@ const blogReducer = (state = initialstate, action) => {
 
     switch (action.type) {
         case 'INITIAL_BLOGS':
-            console.log('reduceriin tuleva action data', action.data.blogs)
             return [...action.data.blogs]
         case 'ADD_BLOG':
-            return [...state, action.data.data]
+            return [...state, action.data.blog]
+        case 'LIKE_BLOG':
+            return state.map(blog => blog.id !== action.data.blog.id ? blog : action.data.blog)
         default:
             return state
-
     }
-
 }
 
 export const initialBlogsAction = () => {
@@ -40,9 +39,35 @@ export const addBlogAction = (blog) => {
         dispatch({
             type: 'ADD_BLOG',
             data: {
-                data: blogToCreate
+                blog: blogToCreate
             }
         })
+    }
+}
+
+export const likeBlogAction = (blog) => {
+
+    return async dispatch => {
+        const blogToUpdate = {
+            ...blog,
+            likes: blog.likes + 1
+        }
+
+        const updatedBlog = await blogService.update(blogToUpdate)
+
+        dispatch({
+            type: 'LIKE_BLOG',
+            data: {
+                blog: updatedBlog,
+            }
+        })
+    }
+}
+
+export const removeBlogAction = (blog) => {
+
+    return async  dispatch => {
+
     }
 }
 
