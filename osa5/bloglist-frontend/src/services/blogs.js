@@ -39,7 +39,8 @@ const remove = async objectToRemove => {
   }
 
   const response = await axios.delete(baseUrl + `/${objectToRemove.id}`, config)
-  return response.data
+
+  return response
 
 }
 

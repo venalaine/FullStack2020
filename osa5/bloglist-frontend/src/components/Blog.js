@@ -1,10 +1,9 @@
 import React, { useState } from 'react'
-import blogService from '../services/blogs'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { likeBlogAction } from '../reducers/blogReducer'
+import { likeBlogAction, removeBlogAction } from '../reducers/blogReducer'
 
-const Blog = ({ blog, user, onDelete }) => {
+const Blog = ({ blog, user }) => {
   const [showFull, setShowFull] = useState(false)
   const dispatch = useDispatch()
 
@@ -13,20 +12,11 @@ const Blog = ({ blog, user, onDelete }) => {
   }
 
   const removeBlog = () => {
-    const blogToRemove = {
-      id: blog.id,
-      user: blog.user.id,
-      title: blog.title,
-      author: blog.author,
-    }
-
-    const confirm = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}?`)
+    const confirm = window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)
 
     if (confirm) {
-      blogService.remove(blogToRemove)
+      dispatch(removeBlogAction(blog))
     }
-
-    onDelete(blogToRemove.id)
 
   }
 
@@ -78,7 +68,6 @@ const Blog = ({ blog, user, onDelete }) => {
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
-  onDelete: PropTypes.func.isRequired
 }
 
 export default Blog

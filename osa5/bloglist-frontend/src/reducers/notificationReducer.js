@@ -1,16 +1,15 @@
-/* eslint-disable indent */
 const initialState = null
 let timer = null
 
 const notificationReducer = (state = initialState, action) => {
 
   switch (action.type) {
-    case 'ADD_NOTIFICATION':
-      return action.data
-    case 'REMOVE_NOTIFICATION':
-      return action.data.notification
-    default:
-      return state
+  case 'ADD_NOTIFICATION':
+    return action.data
+  case 'REMOVE_NOTIFICATION':
+    return action.data.notification
+  default:
+    return state
   }
 }
 

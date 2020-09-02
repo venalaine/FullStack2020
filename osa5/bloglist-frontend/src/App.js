@@ -34,10 +34,6 @@ const App = () => {
     }
   }, [])
 
-  const onDelete = (id) => {
-    // setBlogs(blogs.filter(blog => blog.id !== id))
-  }
-
   const handleLogOut = () => {
     setUser(null)
     window.localStorage.removeItem('loggedUser')
@@ -75,7 +71,7 @@ const App = () => {
     return (
       <div>
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} onDelete={onDelete} />
+          <Blog key={blog.id} blog={blog} user={user} />
         )}
       </div>
     )
