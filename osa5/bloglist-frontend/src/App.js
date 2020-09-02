@@ -4,29 +4,32 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addNotificationAction } from './reducers/notificationReducer'
+import { addBlogAction, initialBlogsAction } from './reducers/blogReducer'
 
 
 const App = () => {
-  const [blogs, setBlogs] = useState([])
+  // const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-//  const [errorMessage, setErrorMessage] = useState(null)
-//  const [message, setMessage] = useState(null)
+  //  const [errorMessage, setErrorMessage] = useState(null)
+  //  const [message, setMessage] = useState(null)
   const [blogPostVisible, setBlogPostVisible] = useState(false)
 
   const hideWhenVisible = { display: blogPostVisible ? 'none' : '' }
   const showWhenVisible = { display: blogPostVisible ? '' : 'none' }
 
   const dispatch = useDispatch()
+  const blogs = useSelector(state => state.blogs)
 
   useEffect(() => {
-    blogService.getAll().then(blogs =>
-      setBlogs(blogs)
-    )
-  }, [])
+    //  blogService.getAll().then(blogs =>
+    //    setBlogs(blogs)
+    //  )
+    dispatch(initialBlogsAction())
+  }, [dispatch])
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedUser')
@@ -38,11 +41,11 @@ const App = () => {
   }, [])
 
   const onLike = (id) => {
-    setBlogs(blogs.map(blog => blog.id === id ? { ...blog, likes: blog.likes + 1 } : blog))
+    // setBlogs(blogs.map(blog => blog.id === id ? { ...blog, likes: blog.likes + 1 } : blog))
   }
 
   const onDelete = (id) => {
-    setBlogs(blogs.filter(blog => blog.id !== id))
+    // setBlogs(blogs.filter(blog => blog.id !== id))
   }
 
   const handleLogOut = () => {
@@ -75,11 +78,13 @@ const App = () => {
   }
 
   const addBlog = (blogObject) => {
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-      })
+    //blogService
+    //  .create(blogObject)
+    //  .then(returnedBlog => {
+    // setBlogs(blogs.concat(returnedBlog))
+    //  })
+
+    dispatch(addBlogAction(blogObject))
 
     let messageText = `A new blog ${blogObject.title} by ${blogObject.author} added`
     //    setMessage(messageText)
@@ -104,7 +109,7 @@ const App = () => {
     return (
       <div>
         <h2>Log in to application</h2>
-        <Notification  />
+        <Notification />
         <form onSubmit={handleLogin}>
           <div>
             username

@@ -1,11 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-// import { removeNotificationAction } from '../reducers/notificationReducer'
-
 
 const Notification = () => {
 
-  const notification = useSelector(state => state)
+  const notification = useSelector(state => state.notifications)
 
   if (notification === null) {
     return null
@@ -27,6 +25,5 @@ const Notification = () => {
     </div>
   )
 }
-
 
 export default Notification
