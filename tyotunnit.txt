@@ -5,4 +5,4 @@ osa3: 18,5h
 osa4: 17,5h
 osa5: 23h
 osa6: 19h
-osa7: 12,5h 
+osa7: 14h 

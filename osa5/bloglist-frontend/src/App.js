@@ -4,6 +4,7 @@ import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from './components/Notification'
 import BlogForm from './components/BlogForm'
+import Users from './components/Users'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNotificationAction } from './reducers/notificationReducer'
 import { initialBlogsAction, addBlogAction } from './reducers/blogReducer'
@@ -125,6 +126,7 @@ const App = () => {
       </div>
       <br />
       {showBlogs()}
+      <Users />
     </div>
   )
 }
