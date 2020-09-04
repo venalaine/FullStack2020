@@ -8,6 +8,10 @@ import Users from './components/Users'
 import { useDispatch, useSelector } from 'react-redux'
 import { addNotificationAction } from './reducers/notificationReducer'
 import { initialBlogsAction, addBlogAction } from './reducers/blogReducer'
+import {
+  BrowserRouter as Router,
+  Switch, Route
+} from 'react-router-dom'
 
 
 const App = () => {
@@ -111,23 +115,29 @@ const App = () => {
   }
 
   return (
-    <div>
+    <Router>
       <h2>Blogs</h2>
       <Notification />
       <p>{user.name} logged in <button onClick={handleLogOut}>Log out</button> </p>
-      <div style={hideWhenVisible}>
-        <button id="create-new-button" onClick={() => setBlogPostVisible(true)}>Create new</button>
-      </div>
-      <div style={showWhenVisible}>
-        <BlogForm createBlog={addBlog} />
-      </div>
-      <div style={showWhenVisible}>
-        <button onClick={() => setBlogPostVisible(false)}>Cancel</button>
-      </div>
-      <br />
-      {showBlogs()}
-      <Users />
-    </div>
+      <Switch>
+        <Route path="/users">
+          <Users />
+        </Route>
+        <Route path="/">
+          <div style={hideWhenVisible}>
+            <button id="create-new-button" onClick={() => setBlogPostVisible(true)}>Create new</button>
+          </div>
+          <div style={showWhenVisible}>
+            <BlogForm createBlog={addBlog} />
+          </div>
+          <div style={showWhenVisible}>
+            <button onClick={() => setBlogPostVisible(false)}>Cancel</button>
+          </div>
+          <br />
+          {showBlogs()}
+        </Route>
+      </Switch>
+    </Router>
   )
 }
 
