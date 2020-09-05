@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { likeBlogAction, removeBlogAction } from '../reducers/blogReducer'
-import { useParams, Redirect, Link } from 'react-router-dom'
+import { useParams, Redirect } from 'react-router-dom'
 
 const Blog = ({ blogs, user }) => {
   const dispatch = useDispatch()
@@ -42,7 +42,7 @@ const Blog = ({ blogs, user }) => {
   return (
     <div>
       <h2>{blog.title} by {blog.author}</h2>
-      <Link to={blog.url}>{blog.url}</Link>
+      <a href={`https://${blog.url}`} target="_blank" rel="noopener noreferrer">{blog.url}</a>
       <br />
       {blog.likes} likes <button id="like-button" onClick={addLikes}> Like </button>
       <br />

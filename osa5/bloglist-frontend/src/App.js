@@ -95,7 +95,7 @@ const App = () => {
           <Route path="/">
             <table style={tableStyle}>
               <tbody>
-                {blogs.map(blog => <tr key={blog.id}><td style= {blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></td></tr>)}
+                {blogs.map(blog => <tr key={blog.id}><td style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></td></tr>)}
               </tbody>
             </table>
           </Route>
@@ -136,11 +136,23 @@ const App = () => {
     )
   }
 
+  const padding = {
+    padding: 5
+  }
+
   return (
     <Router>
+      <div>
+        <Link style={padding} to="/">Blogs</Link>
+        <Link style={padding} to="/users">Users</Link>
+        {user
+          ? <b>{user.name} logged in <button onClick={handleLogOut}>Log out</button> </b>
+          : <Link style={padding} to="/login">login</Link>
+        }
+      </div>
+
       <h2>Blogs</h2>
       <Notification />
-      <p>{user.name} logged in <button onClick={handleLogOut}>Log out</button> </p>
       <Switch>
         <Route path="/users">
           <Users />
