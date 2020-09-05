@@ -10,7 +10,7 @@ import { addNotificationAction } from './reducers/notificationReducer'
 import { initialBlogsAction, addBlogAction } from './reducers/blogReducer'
 import {
   BrowserRouter as Router,
-  Switch, Route
+  Switch, Route, Link
 } from 'react-router-dom'
 
 
@@ -73,12 +73,34 @@ const App = () => {
 
   const showBlogs = () => {
     blogs.sort((a, b) => b.likes - a.likes)
+
+    const blogStyle = {
+      paddingTop: 10,
+      paddingLeft: 2,
+      border: 'solid',
+      borderWidth: 1,
+      marginBottom: 5
+    }
+
+    const tableStyle = {
+      width: '100%'
+    }
+
     return (
-      <div>
-        {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} />
-        )}
-      </div>
+      <Router>
+        <Switch>
+          <Route path="/blogs/:id">
+            <Blog blogs={blogs} user={user} />
+          </Route>
+          <Route path="/">
+            <table style={tableStyle}>
+              <tbody>
+                {blogs.map(blog => <tr key={blog.id}><td style= {blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></td></tr>)}
+              </tbody>
+            </table>
+          </Route>
+        </Switch>
+      </Router>
     )
   }
 

@@ -1,11 +1,14 @@
-import React, { useState } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { likeBlogAction, removeBlogAction } from '../reducers/blogReducer'
+import { useParams, Redirect, Link } from 'react-router-dom'
 
-const Blog = ({ blog, user }) => {
-  const [showFull, setShowFull] = useState(false)
+const Blog = ({ blogs, user }) => {
   const dispatch = useDispatch()
+
+  const id = useParams().id
+  const blog = blogs.find(b => b.id === id)
 
   const addLikes = () => {
     dispatch(likeBlogAction(blog))
@@ -30,43 +33,28 @@ const Blog = ({ blog, user }) => {
     }
   }
 
-  const blogStyle = {
-    paddingTop: 10,
-    paddingLeft: 2,
-    border: 'solid',
-    borderWidth: 1,
-    marginBottom: 5
-  }
-
-  if (showFull === false) {
+  if (!blog) {
     return (
-      <div id="closedBlog" style={blogStyle}>
-        {blog.title} {blog.author} <button id="view-button" onClick={() => setShowFull(true)
-        }>View</button>
-      </div>
+      <Redirect to="/" />
     )
   }
 
-  else {
-    return (
-      <div id="openedBlog" style={blogStyle}>
-        {blog.title} {blog.author} <button id="hide-button" onClick={() => setShowFull(false)
-        }>Hide</button>
-        <br />
-        {blog.url}
-        <br />
-        {blog.likes} likes <button id="like-button" onClick={addLikes}> Like </button>
-        <br />
-        {blog.user.username}
-        <br />
-        {deleteButton()}
-      </div>
-    )
-  }
+  return (
+    <div>
+      <h2>{blog.title} by {blog.author}</h2>
+      <Link to={blog.url}>{blog.url}</Link>
+      <br />
+      {blog.likes} likes <button id="like-button" onClick={addLikes}> Like </button>
+      <br />
+      {blog.user.username}
+      <br />
+      {deleteButton()}
+    </div>
+  )
 }
 
 Blog.propTypes = {
-  blog: PropTypes.object.isRequired,
+  blogs: PropTypes.array.isRequired,
   user: PropTypes.object.isRequired,
 }
 
