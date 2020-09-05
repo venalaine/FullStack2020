@@ -1,5 +1,19 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+
+const AddButton = styled.button`
+background: light-Grey;
+font-size: 1em;
+margin: 0.3em;
+padding: 0.25em 0.5em;
+border: 3px solid Grey;
+border-radius: 3px;
+border-color: ForestGreen;
+`
+const Input = styled.input`
+margin: 0.50em;
+`
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState('')
@@ -37,8 +51,8 @@ const BlogForm = ({ createBlog }) => {
       <h2>Create New Blog</h2>
       <form onSubmit={addBlog}>
         <div>
-                    Title:
-          <input
+          Title
+          <Input
             id="title"
             type="text"
             value={title}
@@ -47,8 +61,8 @@ const BlogForm = ({ createBlog }) => {
           />
         </div>
         <div>
-                    Author:
-          <input
+          Author
+          <Input
             id="author"
             type="text"
             value={author}
@@ -57,8 +71,8 @@ const BlogForm = ({ createBlog }) => {
           />
         </div>
         <div>
-                    Url:
-          <input
+          Url
+          <Input
             id="url"
             type="text"
             value={url}
@@ -67,7 +81,7 @@ const BlogForm = ({ createBlog }) => {
           />
         </div>
         <br />
-        <button id="add-button" type="submit">Add</button>
+        <AddButton id="add-button" type="submit">Add</AddButton>
       </form>
     </div>
   )

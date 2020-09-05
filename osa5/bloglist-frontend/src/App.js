@@ -12,7 +12,56 @@ import {
   BrowserRouter as Router,
   Switch, Route, Link
 } from 'react-router-dom'
+import styled from 'styled-components'
+import Footer from './components/Footer'
 
+const Button = styled.button`
+background: light-grey;
+font-size: 1em;
+margin: 1em;
+padding: 0.25em 1em;
+border: 3px solid Grey;
+border-radius: 3px;
+`
+const CancelButton = styled.button`
+background: light-grey;
+font-size: 1em;
+margin: 0.3em;
+padding: 0.25em 1em;
+border: 3px solid Grey;
+border-radius: 3px;
+`
+
+const LogoutButton = styled.button`
+background: light-grey;
+font-size: 1em;
+margin: 0.3em;
+padding: 0.25em 1em;
+border: 3px solid Grey;
+border-radius: 3px;
+border-color: FireBrick;
+`
+
+const Input = styled.input`
+margin: 0.50em;
+`
+const Page = styled.div`
+padding: 1em;
+background: Snow;
+`
+
+const Navigation = styled.div`
+  background: Gainsboro;
+  padding: 1.5em;
+`
+
+const BlogsDiv = styled.div`
+border: 2px solid Grey;
+`
+
+const BlogListDiv = styled.div`
+border: 1px solid Grey;
+`
 
 const App = () => {
   const [username, setUsername] = useState('')
@@ -87,32 +136,36 @@ const App = () => {
     }
 
     return (
-      <Router>
-        <Switch>
-          <Route path="/blogs/:id">
-            <Blog blogs={blogs} user={user} />
-          </Route>
-          <Route path="/">
-            <table style={tableStyle}>
-              <tbody>
-                {blogs.map(blog => <tr key={blog.id}><td style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></td></tr>)}
-              </tbody>
-            </table>
-          </Route>
-        </Switch>
-      </Router>
+      <Page>
+        <Router>
+          <Switch>
+            <Route path="/blogs/:id">
+              <Blog blogs={blogs} user={user} />
+            </Route>
+            <Route path="/">
+              <BlogListDiv>
+                <table style={tableStyle}>
+                  <tbody>
+                    {blogs.map(blog => <tr key={blog.id}><td style={blogStyle}><Link to={`/blogs/${blog.id}`}>{blog.title}</Link></td></tr>)}
+                  </tbody>
+                </table>
+              </BlogListDiv>
+            </Route>
+          </Switch>
+        </Router>
+      </Page>
     )
   }
 
   if (user === null) {
     return (
-      <div>
-        <h2>Log in to application</h2>
+      <Page>
+        <h1>Log in to application</h1>
         <Notification />
         <form onSubmit={handleLogin}>
           <div>
-            username
-            <input
+            Username
+            <Input
               id="username"
               type="text"
               value={username}
@@ -121,8 +174,8 @@ const App = () => {
             />
           </div>
           <div>
-            password
-            <input
+            Password
+            <Input
               id="password"
               type="password"
               value={password}
@@ -130,49 +183,56 @@ const App = () => {
               onChange={({ target }) => setPassword(target.value)}
             />
           </div>
-          <button id="login-button" type="submit">login</button>
+          <Button id="login-button" type="submit">login</Button>
         </form>
-      </div>
+        <Footer />
+      </Page>
     )
   }
 
   const padding = {
-    padding: 5
+    padding: 6
   }
 
   return (
-    <Router>
-      <div>
-        <Link style={padding} to="/">Blogs</Link>
-        <Link style={padding} to="/users">Users</Link>
-        {user
-          ? <b>{user.name} logged in <button onClick={handleLogOut}>Log out</button> </b>
-          : <Link style={padding} to="/login">login</Link>
-        }
-      </div>
-
-      <h2>Blogs</h2>
-      <Notification />
-      <Switch>
-        <Route path="/users">
-          <Users />
-        </Route>
-        <Route path="/">
-          <div style={hideWhenVisible}>
-            <button id="create-new-button" onClick={() => setBlogPostVisible(true)}>Create new</button>
-          </div>
-          <div style={showWhenVisible}>
-            <BlogForm createBlog={addBlog} />
-          </div>
-          <div style={showWhenVisible}>
-            <button onClick={() => setBlogPostVisible(false)}>Cancel</button>
-          </div>
-          <br />
-          {showBlogs()}
-        </Route>
-      </Switch>
-    </Router>
+    <Page>
+      <Router>
+        <Navigation>
+          <Link style={padding} to="/">BLOGS</Link>
+          <Link style={padding} to="/users">USERS</Link>
+          {user
+            ? <b><i>{user.name} logged in <LogoutButton onClick={handleLogOut}>Log out</LogoutButton></i></b>
+            : <Link style={padding} to="/login">login</Link>
+          }
+        </Navigation>
+        <BlogsDiv>
+          <h2>Blogs</h2>
+          <Notification />
+          <Switch>
+            <Route path="/users">
+              <Users />
+            </Route>
+            <Route path="/">
+              <div style={hideWhenVisible}>
+                <Button id="create-new-button" onClick={() => setBlogPostVisible(true)}>Create new</Button>
+              </div>
+              <div style={showWhenVisible}>
+                <BlogForm createBlog={addBlog} />
+              </div>
+              <div style={showWhenVisible}>
+                <CancelButton onClick={() => setBlogPostVisible(false)}>Cancel</CancelButton>
+              </div>
+              <br />
+              {showBlogs()}
+            </Route>
+          </Switch>
+        </BlogsDiv>
+      </Router>
+      <Footer />
+    </Page>
   )
 }
+
+
 
 export default App

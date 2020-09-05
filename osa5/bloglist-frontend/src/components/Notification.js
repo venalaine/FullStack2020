@@ -10,9 +10,9 @@ const Notification = () => {
   }
 
   const notificationStyle = {
-    color: 'blue',
+    color: 'purple',
     background: 'lightgrey',
-    fontSize: 20,
+    fontSize: 25,
     borderStyle: 'solid',
     borderRadius: 5,
     padding: 10,

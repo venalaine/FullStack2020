@@ -3,6 +3,19 @@ import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { likeBlogAction, removeBlogAction } from '../reducers/blogReducer'
 import { useParams, Redirect } from 'react-router-dom'
+import styled from 'styled-components'
+
+const Button = styled.button`
+background: light-Grey;
+font-size: 1em;
+padding: 0.2em 0.1em;
+border: 2px solid Grey;
+border-radius: 2px;
+`
+
+const BlogDiv = styled.div`
+border: 1px solid Grey;
+`
 
 const Blog = ({ blogs, user }) => {
   const dispatch = useDispatch()
@@ -27,7 +40,7 @@ const Blog = ({ blogs, user }) => {
     if (user.name === blog.user.username) {
       return (
         <div>
-          <button id="delete-button" onClick={removeBlog}>Remove</button>
+          <Button id="delete-button" onClick={removeBlog}>Remove</Button>
         </div>
       )
     }
@@ -40,16 +53,16 @@ const Blog = ({ blogs, user }) => {
   }
 
   return (
-    <div>
+    <BlogDiv>
       <h2>{blog.title} by {blog.author}</h2>
       <a href={`https://${blog.url}`} target="_blank" rel="noopener noreferrer">{blog.url}</a>
       <br />
-      {blog.likes} likes <button id="like-button" onClick={addLikes}> Like </button>
+      {blog.likes} likes <Button id="like-button" onClick={addLikes}> Like </Button>
       <br />
       {blog.user.username}
       <br />
       {deleteButton()}
-    </div>
+    </BlogDiv>
   )
 }
 
