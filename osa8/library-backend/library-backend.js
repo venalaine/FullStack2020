@@ -116,8 +116,7 @@ const resolvers = {
             if (args === null) {
                 return books
             } else {
-                const filteredBooks = books.filter(book => book.author === args.author)
-                return filteredBooks
+                return books.filter(book => book.author === args.author)
             }
         },
         allAuthors: () => authors
