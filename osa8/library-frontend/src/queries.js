@@ -36,4 +36,16 @@ mutation addBook($title: String!, $published: Int!, $author: String!, $genres: [
 }
 `
 
-export { ALL_AUTHORS, ALL_BOOKS, ADD_BOOK }
+const EDIT_AUTHOR = gql`
+mutation editAuthor($name: String!, $born: Int!) {
+  editAuthor(
+    name: $name
+    setBornTo: $born
+  ) {
+    name
+    born
+  }
+}
+`
+
+export { ALL_AUTHORS, ALL_BOOKS, ADD_BOOK, EDIT_AUTHOR }
