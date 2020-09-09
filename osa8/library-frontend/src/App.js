@@ -22,7 +22,7 @@ const App = () => {
         <button onClick={() => setPage('add')}>add book</button>
       </div>
 
-      <Authors
+     <Authors
         show={page === 'authors'}
         props={authorsResult.data.allAuthors}
       />

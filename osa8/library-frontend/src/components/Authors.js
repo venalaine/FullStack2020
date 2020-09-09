@@ -5,7 +5,6 @@ import Select from "react-select";
 
 
 const Authors = (props) => {
-//  const [name, setName] = useState('')
   const [born, setBorn] = useState('')
   const [selectedOption, setSelectedOption] = useState(null);
 
