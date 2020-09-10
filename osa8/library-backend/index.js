@@ -50,7 +50,6 @@ const typeDefs = gql`
             genres: [String!]!
         ): Book
     
- 
         editAuthor(
             name: String!
             setBornTo: Int!
@@ -67,7 +66,7 @@ const resolvers = {
         authorCount: () => Author.collection.countDocuments(),
 
         allBooks: async (root, args) => {
-            console.log('parametrit', args)
+
             let booksToReturn = await Book.find({})
 
             if (args.author) {
@@ -95,15 +94,30 @@ const resolvers = {
     Mutation: {
         addBook: async (root, args) => {
             let authorToAdd = await Author.findOne({ name: args.author })
-            console.log(authorToAdd)
+
             if (!authorToAdd) {
                 authorToAdd = new Author({ name: args.author, bookCount: 1 })
-                authorToAdd.save()
+                try {
+                    await authorToAdd.save()
+                } catch (error) {
+                    throw new UserInputError(error.message, {
+                        invalidArgs: args
+                    })
+                }
+
             }
 
             const book = new Book({ ...args, author: authorToAdd })
 
-            return book.save()
+            try {
+                await book.save()
+            } catch (error) {
+                throw new UserInputError(error.message, {
+                    invalidArgs: args
+                })
+            }
+
+            return book
         },
 
         editAuthor: async (root, args) => {
@@ -112,6 +126,7 @@ const resolvers = {
                 return null
             }
             author.born = args.setBornTo
+
             return author.save()
         }
     }

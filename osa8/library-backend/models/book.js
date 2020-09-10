@@ -9,13 +9,18 @@ const schema = new mongoose.Schema({
   },
   published: {
     type: Number,
+    required: true, //tämä on itse lisätty
+    min: 4 // tämä on itse lisätty
   },
   author: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Author'
   },
   genres: [
-    { type: String}
+    {
+      type: String,
+      required: true // tämä on itse lisätty
+    },
   ]
 })
 
