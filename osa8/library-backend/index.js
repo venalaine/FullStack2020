@@ -113,9 +113,11 @@ const resolvers = {
     },
 
     Author: {
-        bookCount: (root) => {
-            const booksToFilter = Book.find({})
-            const filteredBooks = booksToFilter.filter(book => root.name === book.author)
+        bookCount: async (root) => {
+
+            const author = await Author.findOne( { name: root.name })
+            const booksToFilter = await Book.find({})
+            const filteredBooks = booksToFilter.filter(book => author && author._id.toString() === book.author.toString())
             return filteredBooks.length
         }
     },
