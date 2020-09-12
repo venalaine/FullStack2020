@@ -101,6 +101,7 @@ const resolvers = {
             if (args.genre) {
                 booksToReturn = booksToReturn.filter(book => book.genres.find(genre => genre === args.genre))
             }
+
             return booksToReturn
         },
 
@@ -119,6 +120,15 @@ const resolvers = {
             const booksToFilter = await Book.find({})
             const filteredBooks = booksToFilter.filter(book => author && author._id.toString() === book.author.toString())
             return filteredBooks.length
+        }
+    },
+
+    Book: {
+        author: async (root) => {
+
+            const author = await Author.findById(root.author)
+
+            return author
         }
     },
 

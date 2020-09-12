@@ -16,7 +16,7 @@ const Authors = (props) => {
     return null
   }
   const authors = props.props
-
+  
   const options = []
   authors.map(a => options.push({ value: a.name, label: a.name }))
   

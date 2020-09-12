@@ -1,6 +1,5 @@
 import { gql } from '@apollo/client'
 
-
 const ALL_AUTHORS = gql`
 query {
   allAuthors {
@@ -10,12 +9,15 @@ query {
   }
 }
 `
-// Tästä on poistettu author
+
 const ALL_BOOKS = gql`
 query {
   allBooks {
     title
     published
+    author  {
+      name
+    }
   }
 }
 `
