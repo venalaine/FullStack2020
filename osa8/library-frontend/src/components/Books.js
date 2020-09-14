@@ -64,13 +64,13 @@ const Books = ({ show, booksFromDB }) => {
   let genreSet = new Set()
   books.map(book => book.genres.map(genre => genreSet.add(genre)))
   genreSet.add('all genres')
- 
+
 
   return (
     <div>
       <h2>books</h2>
       in genre <b>patterns</b>
-      <RenderBooks filter={filter} books={books}/>
+      <RenderBooks filter={filter} books={books} />
       {Array.from(genreSet).map(genre => <button key={genre} onClick={() => setFilter(genre)}>{genre}</button>)}
     </div>
   )
