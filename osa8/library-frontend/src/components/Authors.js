@@ -3,8 +3,7 @@ import { useMutation } from '@apollo/client'
 import { EDIT_AUTHOR, ALL_AUTHORS } from '../queries'
 import Select from "react-select";
 
-
-const Authors = (props) => {
+const Authors = ({ show, authorsFromDB }) => {
   const [born, setBorn] = useState('')
   const [selectedOption, setSelectedOption] = useState(null);
 
@@ -12,10 +11,10 @@ const Authors = (props) => {
     refetchQueries: [{ query: ALL_AUTHORS }]
   })
 
-  if (!props.show) {
+  if (!show) {
     return null
   }
-  const authors = props.props
+  const authors = authorsFromDB
   
   const options = []
   authors.map(a => options.push({ value: a.name, label: a.name }))

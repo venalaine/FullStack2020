@@ -127,23 +127,27 @@ const resolvers = {
         author: async (root) => {
 
             const author = await Author.findById(root.author)
-
             return author
         }
     },
 
     Mutation: {
         addBook: async (root, args, context) => {
-            let authorToAdd = await Author.findOne({ name: args.author })
 
+            let authorToAdd = await Author.findOne({ name: args.author })
+ 
             const currentUser = context.currentUser
 
             if (!currentUser) {
                 throw new AuthenticationError("not authenticated")
             }
 
+            if (authorToAdd) {
+                authorToAdd.bookCount = authorToAdd.bookCount + 1
+            }
+
             if (!authorToAdd) {
-                authorToAdd = new Author({ name: args.author, bookCount: 1 })
+                authorToAdd = new Author({ name: args.author, bookCount: 1, born: null })
                 try {
                     await authorToAdd.save()
                 } catch (error) {
@@ -185,7 +189,6 @@ const resolvers = {
         },
 
         createUser: (root, args) => {
-
             const user = new User({ ...args })
 
             return user.save()
@@ -223,7 +226,7 @@ const server = new ApolloServer({
                 auth.substring(7), JWT_SECRET
             )
             const currentUser = await User
-                .findById(decodedToken.id).populate('friends')
+                .findById(decodedToken.id)
             return { currentUser }
         }
     }
