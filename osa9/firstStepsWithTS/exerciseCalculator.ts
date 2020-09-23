@@ -9,19 +9,15 @@ interface TrainingResults {
 }
 
 const calculateExercises = (data: Array<number>, target: number): TrainingResults => {
-    let avg: number = null;
-    let rating: number = null;
+    let avg: number;
+    let sum: number = 0;
 
-    const calcAvg = (): number => {
-        let sum: number = null;
-        
-        for (let i = 0; i < data.length; i++) {
-            sum = sum + data[i];
-        }
-        avg = sum / data.length;
-
-        return sum / data.length;
+    for (let i = 0; i < data.length; i++) {
+        sum = sum + data[i];
     }
+    avg = sum / data.length;
+
+    let rating: number;
 
     const calcRating = (): number => {
         if (avg < target) {
@@ -39,24 +35,23 @@ const calculateExercises = (data: Array<number>, target: number): TrainingResult
     const handleDescription = (): string => {
         switch (rating) {
             case 1:
-                return 'under target'
+                return 'under target';
             case 2:
-                return 'target achieved'
+                return 'target achieved';
             case 3:
-                return 'excellent'
+                return 'excellent';
+            default:
+                throw new Error('Wrong kind of rating given.')
         }
     }
-
-    if (data.length !== 0 && !isNaN(target)) {
-        return {
-            periodLength: data.length,
-            trainingDays: data.filter(d => d !== 0).length,
-            success: avg >= target,
-            rating: calcRating(),
-            ratingDescription: handleDescription(),
-            target: target,
-            average: calcAvg(),
-        }
+    return {
+        periodLength: data.length,
+        trainingDays: data.filter(d => d !== 0).length,
+        success: avg >= target,
+        rating: calcRating(),
+        ratingDescription: handleDescription(),
+        target: target,
+        average: avg
     }
 }
 
