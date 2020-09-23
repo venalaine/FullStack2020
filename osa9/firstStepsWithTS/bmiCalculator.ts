@@ -16,9 +16,9 @@ const calculateBMI = (height: number, weight: number): Result => {
     } else if (bmi >= 30 && bmi < 35) {
         return 'Obese Class I (Moderately obese)';
     } else if (bmi >= 35 && bmi < 40) {
-        return 'Obese Class II (Severely obese)'
+        return 'Obese Class II (Severely obese)';
     } else {
-        return 'Obese Class III (Very severely obese)'
+        return 'Obese Class III (Very severely obese)';
     }
 }
     console.log(calculateBMI(180, 74));
