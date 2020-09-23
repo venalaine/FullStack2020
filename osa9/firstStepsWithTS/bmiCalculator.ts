@@ -17,8 +17,22 @@ const calculateBMI = (height: number, weight: number): Result => {
         return 'Obese Class I (Moderately obese)';
     } else if (bmi >= 35 && bmi < 40) {
         return 'Obese Class II (Severely obese)';
-    } else {
+    } else if (bmi >= 40) {
         return 'Obese Class III (Very severely obese)';
+    } else {
+        throw new Error('Illegal arguments!');
     }
 }
-    console.log(calculateBMI(180, 74));
+
+try {
+    if (process.argv[4]) {
+        throw new Error('Too many arguments!');
+    }
+    const a: number = Number(process.argv[2]);
+    const b: number = Number(process.argv[3]);
+    console.log(calculateBMI(a, b));
+} catch (e) {
+    console.log('Error:', e.message);
+}
+
+

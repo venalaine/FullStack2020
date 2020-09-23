@@ -13,8 +13,8 @@ const calculateExercises = (data: Array<number>, target: number): TrainingResult
     let rating: number = null;
 
     const calcAvg = (): number => {
-
         let sum: number = null;
+        
         for (let i = 0; i < data.length; i++) {
             sum = sum + data[i];
         }
@@ -51,13 +51,37 @@ const calculateExercises = (data: Array<number>, target: number): TrainingResult
         return {
             periodLength: data.length,
             trainingDays: data.filter(d => d !== 0).length,
-            target: target,
-            average: calcAvg(),
             success: avg >= target,
             rating: calcRating(),
-            ratingDescription: handleDescription()
+            ratingDescription: handleDescription(),
+            target: target,
+            average: calcAvg(),
         }
     }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+    if (!process.argv[3]) {
+        throw new Error('Mandatory argument missing!');
+    }
+
+    for (let i = 2; i < process.argv.length; i++) {
+        if (isNaN(Number(process.argv[i]))) {
+            throw new Error('Illegal arguments!');
+        }
+    }
+
+    const a: number = Number(process.argv[2]);
+    let b: Array<number> = new Array;
+
+    for (let i = 3; i < process.argv.length; i++) {
+        b.push(Number(process.argv[i]));
+    }
+
+    console.log(calculateExercises(b, a));
+
+} catch (e) {
+    console.log('Error:', e.message);
+}
+
+
