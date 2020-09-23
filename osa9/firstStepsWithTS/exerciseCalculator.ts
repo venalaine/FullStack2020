@@ -12,10 +12,6 @@ const calculateExercises = (data: Array<number>, target: number): TrainingResult
     let avg: number = null;
     let rating: number = null;
 
-    const calcTrainDays = (): number => {
-        return data.filter(d => d !== 0).length
-    }
-
     const calcAvg = (): number => {
 
         let sum: number = null;
@@ -54,7 +50,7 @@ const calculateExercises = (data: Array<number>, target: number): TrainingResult
     if (data.length !== 0 && !isNaN(target)) {
         return {
             periodLength: data.length,
-            trainingDays: calcTrainDays(),
+            trainingDays: data.filter(d => d !== 0).length,
             target: target,
             average: calcAvg(),
             success: avg >= target,
