@@ -20,7 +20,7 @@ export const calculateBMI = (height: number, weight: number): Result => {
     } else if (bmi >= 40) {
         return 'Obese Class III (Very severely obese)';
     } else {
-        throw new Error('Malformatted parameters');
+        throw new Error('malformatted parameters');
     }
 }
 
