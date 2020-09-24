@@ -1,6 +1,6 @@
 type Result = string;
 
-const calculateBMI = (height: number, weight: number): Result => {
+export const calculateBMI = (height: number, weight: number): Result => {
     const bmi = weight / ((height / 100) * 2);
 
     if (bmi < 15) {
@@ -20,7 +20,7 @@ const calculateBMI = (height: number, weight: number): Result => {
     } else if (bmi >= 40) {
         return 'Obese Class III (Very severely obese)';
     } else {
-        throw new Error('Illegal arguments!');
+        throw new Error('Malformatted parameters');
     }
 }
 
@@ -34,5 +34,3 @@ try {
 } catch (e) {
     console.log('Error:', e.message);
 }
-
-
