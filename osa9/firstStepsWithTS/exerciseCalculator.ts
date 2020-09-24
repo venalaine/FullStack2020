@@ -8,7 +8,7 @@ interface TrainingResults {
     average: number;
 }
 
-const calculateExercises = (data: Array<number>, target: number): TrainingResults => {
+export const calculateExercises = (data: Array<number>, target: number): TrainingResults => {
     let sum = 0;
 
     for (let i = 0; i < data.length; i++) {
