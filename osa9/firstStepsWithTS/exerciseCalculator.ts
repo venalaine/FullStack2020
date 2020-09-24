@@ -9,28 +9,27 @@ interface TrainingResults {
 }
 
 const calculateExercises = (data: Array<number>, target: number): TrainingResults => {
-    let avg: number;
-    let sum: number = 0;
+    let sum = 0;
 
     for (let i = 0; i < data.length; i++) {
         sum = sum + data[i];
     }
-    avg = sum / data.length;
+    const avg = sum / data.length;
 
     let rating: number;
 
     const calcRating = (): number => {
         if (avg < target) {
             rating = 1;
-            return 1
+            return 1;
         } else if (avg >= target && avg <= (1.2 * target)) {
             rating = 2;
-            return 2
+            return 2;
         } else {
             rating = 3;
-            return 3
+            return 3;
         }
-    }
+    };
 
     const handleDescription = (): string => {
         switch (rating) {
@@ -41,9 +40,9 @@ const calculateExercises = (data: Array<number>, target: number): TrainingResult
             case 3:
                 return 'excellent';
             default:
-                throw new Error('Wrong kind of rating given.')
+                throw new Error('Wrong kind of rating given.');
         }
-    }
+    };
     return {
         periodLength: data.length,
         trainingDays: data.filter(d => d !== 0).length,
@@ -52,8 +51,8 @@ const calculateExercises = (data: Array<number>, target: number): TrainingResult
         ratingDescription: handleDescription(),
         target: target,
         average: avg
-    }
-}
+    };
+};
 
 try {
     if (!process.argv[3]) {
@@ -66,8 +65,8 @@ try {
         }
     }
 
-    const a: number = Number(process.argv[2]);
-    let b: Array<number> = new Array;
+    const a = Number(process.argv[2]);
+    const b: Array<number> = [];
 
     for (let i = 3; i < process.argv.length; i++) {
         b.push(Number(process.argv[i]));
@@ -76,7 +75,8 @@ try {
     console.log(calculateExercises(b, a));
 
 } catch (e) {
-    console.log('Error:', e.message);
+    const message = e instanceof Error ? e.message : 'Unknown error.';
+    console.log('Error:', message);
 }
 
 

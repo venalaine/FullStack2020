@@ -22,15 +22,16 @@ export const calculateBMI = (height: number, weight: number): Result => {
     } else {
         throw new Error('malformatted parameters');
     }
-}
+};
 
 try {
     if (process.argv[4]) {
         throw new Error('Too many arguments!');
     }
-    const a: number = Number(process.argv[2]);
-    const b: number = Number(process.argv[3]);
+    const a = Number(process.argv[2]);
+    const b = Number(process.argv[3]);
     console.log(calculateBMI(a, b));
 } catch (e) {
-    console.log('Error:', e.message);
+    const message = e instanceof Error ? e.message : 'Unknown error.';
+    console.log('Error:', message);
 }
