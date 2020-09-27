@@ -1,22 +1,33 @@
 import patients from '../data/patients';
-import { NewPatientEntry, NonSensitivePatientEntry, PatientEntry } from '../types';
+import { NewPatientEntry, PublicPatient, PatientEntry } from '../types';
 import { v4 as uuidv4 } from 'uuid';
 
-const getPatients = (): NonSensitivePatientEntry[] => {
-    return patients.map(({ id, name, dateOfBirth, gender, occupation }) => ({
+const getPatients = (): PublicPatient[] => {
+    return patients.map(({ id, name, dateOfBirth, gender, occupation, entries }) => ({
         id,
         name,
         dateOfBirth,
         gender,
         occupation,
+        entries
     }));
 };
 
-const addPatient = (entry: NewPatientEntry): PatientEntry => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-    const newPatientEntry = {...entry, id: uuidv4()};
-      patients.push(newPatientEntry);
-      return newPatientEntry;
+const getPatient = (id: string): PublicPatient | undefined => {
+    const patient = patients.find(p => p.id === id);
+
+    if (!patient) {
+        throw new Error("Patient does not exist.");
+    }
+
+    return patient;
 };
 
-export default { getPatients, addPatient };
+const addPatient = (entry: NewPatientEntry): PatientEntry => {
+    
+    const newPatientEntry = { ...entry, id: uuidv4() };
+    patients.push(newPatientEntry);
+    return newPatientEntry;
+};
+
+export default { getPatients, getPatient, addPatient };
