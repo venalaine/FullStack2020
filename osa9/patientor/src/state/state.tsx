@@ -5,10 +5,12 @@ import { Action } from "./reducer";
 
 export type State = {
   patients: { [id: string]: Patient };
+  patient: { [id: string]: Patient }; // Tää on itse lisätty.
 };
 
 const initialState: State = {
-  patients: {}
+  patients: {},
+  patient: {},
 };
 
 export const StateContext = createContext<[State, React.Dispatch<Action>]>([
