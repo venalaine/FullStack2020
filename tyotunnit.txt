@@ -7,4 +7,4 @@ osa5: 23h
 osa6: 19h
 osa7: 21h 
 osa8: 23,5h
-osa9: 22h 
+osa9: 23h 
