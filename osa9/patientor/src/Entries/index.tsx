@@ -1,11 +1,13 @@
 import React from 'react';
 import { Entry } from "../types";
+import { useStateValue } from "../state";
 
 interface Props {
    entries: Entry[];
   }
 
 const Entries: React.FC<Props> = ( { entries } ) => {
+    const [{ diagnosis } ] = useStateValue();
 
     if (entries.length === 0) {
         return (
@@ -19,7 +21,8 @@ const Entries: React.FC<Props> = ( { entries } ) => {
         if (e.diagnosisCodes) {
             return (
                 <ul>
-                    {e.diagnosisCodes.map(d => <li key={d}>{d}</li>)}
+                    {e.diagnosisCodes.map(d => <li key={d}>{d} {String(diagnosis[d].name)}</li>)}
+
                 </ul>
             );
         }
