@@ -29,9 +29,7 @@ const PatienPage: React.FC = () => {
     }
 
     const renderIcon = (gender: string) => {
-
         const iconName = gender === "male" ? "mars" : gender === "female" ? "venus" : "genderless";
-
         return (
             <>
                 <Icon name={iconName} size="large" />
@@ -48,7 +46,6 @@ const PatienPage: React.FC = () => {
                         <p>ssn: {p.ssn}</p>
                         <p>occupation: {p.occupation}</p>
                     </div>
-
             )}
         </>
     );
