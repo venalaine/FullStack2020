@@ -5,7 +5,7 @@ import { Patient } from "../types";
 import { apiBaseUrl } from '../constants';
 import { useStateValue, setSinglePatient } from '../state';
 import { Icon } from 'semantic-ui-react';
-import Entries from '../Entries/index';
+import EntryDetails from '../EntryDetails/index';
 
 const PatienPage: React.FC = () => {
     const [{ patient }, dispatch] = useStateValue();
@@ -32,14 +32,13 @@ const PatienPage: React.FC = () => {
     const renderIcon = (gender: string) => {
         const iconName = gender === "male" ? "mars" : gender === "female" ? "venus" : "genderless";
         return (
-            <>
+            <div>
                 <Icon name={iconName} size="large" />
-            </>
+            </div>
         );
     };
 
     return (
-        <>
             <div>
                 {Object.values(patient).map(
                     (p: Patient) =>
@@ -47,11 +46,11 @@ const PatienPage: React.FC = () => {
                             <h2>{p.name} {renderIcon(p.gender)}</h2>
                             <p>ssn: {p.ssn}</p>
                             <p>occupation: {p.occupation}</p>
-                            <Entries entries={p.entries}/>
+                            <h2>Entries</h2>
+                            {p.entries.map(e => <EntryDetails key={e.id} entry={e}/>)}
                         </div>
                 )}
             </div>
-        </>
     );
 };
 
