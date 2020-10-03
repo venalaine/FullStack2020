@@ -4,7 +4,7 @@ export interface DiagnoseEntry {
     latin?: string;
   }
 
-interface BaseEntry {
+export interface BaseEntry {
   id: string;
   description: string;
   date: string;
@@ -24,7 +24,7 @@ interface HealthCheckEntry extends BaseEntry {
   healthCheckRating: HealthCheckRating;
 }
 
-interface Discharge {
+export interface Discharge {
   date: string;
   criteria: string;
 }
@@ -34,7 +34,7 @@ interface HospitalEntry extends BaseEntry {
   discharge: Discharge;
 }
 
-interface Sickleave {
+export interface Sickleave {
   startDate: string;
   endDate: string;
 }
@@ -45,7 +45,7 @@ interface OccupationalHealthcareEntry extends BaseEntry {
   sickLeave?: Sickleave;
 }
 
-type Entry = 
+export type Entry = 
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
@@ -69,4 +69,10 @@ export enum Gender {
   Male = "male",
   Female = "female",
   Other = "other"
+}
+
+export enum Type {
+  HospitalEntry = "Hospital",
+  OccupationalHealthcareEntry = "OccupationalHealthcare",
+  HealthCheckEntry = "HealthCheck"
 }
