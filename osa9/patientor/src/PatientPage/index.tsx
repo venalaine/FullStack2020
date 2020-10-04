@@ -1,33 +1,37 @@
 import React from 'react';
 import axios from "axios";
 import { useParams } from 'react-router-dom';
-import { Patient } from "../types";
+import { HealthCheckEntry, Patient } from "../types";
 import { apiBaseUrl } from '../constants';
-import { useStateValue, setSinglePatient } from '../state';
+import { useStateValue, addPatient, addHealthCheckEntry } from '../state';
 import { Icon } from 'semantic-ui-react';
 import EntryDetails from '../EntryDetails/index';
+import AddHealthCheckEntryForm, { HealthCheckEntryFormValues } from '../AddHealthCheckEntryForm/index';
 
 const PatienPage: React.FC = () => {
-    const [{ patient }, dispatch] = useStateValue();
+    const [{ patients }, dispatch] = useStateValue();
 
     const { id } = useParams<{ id: string | undefined }>();
+    const patient = patients[id];
 
     const fetchPatient = async () => {
         try {
             const { data: patientFromApi } = await axios.get<Patient>(
                 `${apiBaseUrl}/patients/${id}`
             );
-            dispatch(setSinglePatient(patientFromApi));
+            dispatch(addPatient(patientFromApi));
         } catch (e) {
             console.error(e);
         }
     };
 
-    if (patient[id] === undefined) {
+    if (patients[id] === undefined) {
         fetchPatient();
-    } else if (patient[id] !== undefined && patient[id].id !== id) {
+    } else if (patients[id] !== undefined && patients[id].id !== id) {
         fetchPatient();
     }
+
+    if (!patient) return null;
 
     const renderIcon = (gender: string) => {
         const iconName = gender === "male" ? "mars" : gender === "female" ? "venus" : "genderless";
@@ -38,19 +42,29 @@ const PatienPage: React.FC = () => {
         );
     };
 
+    const submitNewHealthCheckEntry = async (values: HealthCheckEntryFormValues) => {
+        try {
+            const { data: newHealthCheckEntry } = await axios.post<HealthCheckEntry>(
+                `${apiBaseUrl}/patients/${id}/entries`, values
+            );
+            dispatch(addHealthCheckEntry(id, newHealthCheckEntry));
+            fetchPatient();
+        } catch (e) {
+            console.error(e.response.data);
+        }
+    };
+
     return (
-            <div>
-                {Object.values(patient).map(
-                    (p: Patient) =>
-                        <div key={p.id}>
-                            <h2>{p.name} {renderIcon(p.gender)}</h2>
-                            <p>ssn: {p.ssn}</p>
-                            <p>occupation: {p.occupation}</p>
-                            <h2>Entries</h2>
-                            {p.entries.map(e => <EntryDetails key={e.id} entry={e}/>)}
-                        </div>
-                )}
+        <div>
+            <div key={patient.id}>
+                <h2>{patient.name} {renderIcon(patient.gender)}</h2>
+                <p>ssn: {patient.ssn}</p>
+                <p>occupation: {patient.occupation}</p>
+                <h2>Entries</h2>
+                {patient.entries.map(e => <EntryDetails key={e.id} entry={e} />)}
             </div>
+            <AddHealthCheckEntryForm onSubmit={submitNewHealthCheckEntry} />
+        </div>
     );
 };
 

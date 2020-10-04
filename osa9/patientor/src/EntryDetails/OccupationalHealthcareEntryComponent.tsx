@@ -7,10 +7,10 @@ const OccupationalHealthcareEntryComponent: React.FC<{ entry: OccupationalHealth
     const [{ diagnosis }] = useStateValue();
 
     const renderDiagnosisCodes = () => {
-        if (entry.diagnosisCodes) {
+        if (entry.diagnosisCodes !== undefined) {
             return (
                 <ul>
-                    {entry.diagnosisCodes.map(d => <li key={d}>{d} {String(diagnosis[d].name)}</li>)}
+                    {entry.diagnosisCodes.map(d => <li key={d}>{d} {diagnosis[d].name}</li>)}
                 </ul>
             );
         }
