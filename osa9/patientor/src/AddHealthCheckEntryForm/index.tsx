@@ -28,29 +28,44 @@ const AddHealthCheckEntryForm: React.FC<Props> = ({ onSubmit }) => {
             }}
             onSubmit={onSubmit}
             validate={values => {
+                const dateError = "Date must be typed YYYY-MM-DD";
                 const requiredError = "Field is required";
                 const errors: { [field: string]: string } = {};
+
+                // StackOverflowsta kaivettu. Ei ehkä maailman paras validaattori, mutta varmaan tyhjää parempi. 
+                // Puuttuu ainakin siihen, jos ei ole muodossa YYYY-MM-DD ja jos ei ole numeroita. 
+                const testDateError = (date: string): boolean => {
+                    return /^\d{4}-\d{2}-\d{2}$/.test(date);
+                };
+
                 if (!values.description) {
-                    errors.name = requiredError;
+                    errors.description = requiredError;
                 }
                 if (!values.date) {
-                    errors.ssn = requiredError;
+                    errors.date = requiredError;
+                }
+                if (!testDateError(values.date)) {
+                    errors.date = dateError;
                 }
                 if (!values.specialist) {
-                    errors.dateOfBirth = requiredError;
+                    errors.specialist = requiredError;
                 }
                 if (!values.healthCheckRating) {
-                    errors.occupation = requiredError;
+                    errors.healthCheckRating = requiredError;
                 }
+                if (values.healthCheckRating < 0 || values.healthCheckRating > 3) {
+                    errors.healthCheckRating = "Value must be between 0-3";
+                }
+
                 return errors;
             }}
         >
             {({ isValid, dirty, setFieldValue, setFieldTouched }) => {
                 return (
                     <Form className="form ui">
-                        <br/>
+                        <br />
                         <h1>Add new healthcheck entry</h1>
-                        <br/>
+                        <br />
                         <Field
                             label="Description"
                             placeholder="Description"
@@ -90,13 +105,13 @@ const AddHealthCheckEntryForm: React.FC<Props> = ({ onSubmit }) => {
                                     disabled={!dirty || !isValid}
                                 >
                                     Add
-                  </Button>
+                                </Button>
                             </Grid.Column>
                         </Grid>
                     </Form>
                 );
             }}
-        </Formik>
+        </Formik >
     );
 };
 
