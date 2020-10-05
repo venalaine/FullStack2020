@@ -90,7 +90,7 @@ const AddOccupationalEntryForm: React.FC<Props> = ({ onSubmit, render }) => {
                 return (
                     <Form className="form ui">
                         <br />
-                        <h1>Add new healthcheck entry</h1>
+                        <h1>Add new occupational healthcare entry</h1>
                         <br />
                         <Field
                             label="Description"

@@ -87,7 +87,7 @@ const AddHospitalEntryForm: React.FC<Props> = ({ onSubmit, render }) => {
                 return (
                     <Form className="form ui">
                         <br />
-                        <h1>Add new healthcheck entry</h1>
+                        <h1>Add new hospital entry</h1>
                         <br />
                         <Field
                             label="Description"
