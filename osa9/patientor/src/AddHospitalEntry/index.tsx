@@ -4,32 +4,51 @@ import { Grid, Button } from "semantic-ui-react";
 import { Field, Formik, Form } from "formik";
 
 import { TextField } from "../AddPatientModal/FormField";
-import { HealthCheckEntry } from "../types";
-import { DiagnosisSelection, NumberField } from '../AddPatientModal/FormField';
+import { HospitalEntry } from "../types";
+import { DiagnosisSelection } from '../AddPatientModal/FormField';
 
-export type HealthCheckEntryFormValues = Omit<HealthCheckEntry, "id">;
+export type HospitalEntryFormValues = Omit<HospitalEntry, "id">;
 
 interface Props {
-    onSubmit: (values: HealthCheckEntryFormValues) => void;
+    onSubmit: (values: HospitalEntryFormValues) => void;
     render: boolean;
 }
 
-const AddHealthCheckEntryForm: React.FC<Props> = ({ onSubmit, render }) => {
+const AddHospitalEntryForm: React.FC<Props> = ({ onSubmit, render }) => {
     const [{ diagnosis }] = useStateValue();
+    const [dischargeCriteriaError, setDischargeCriteriaError] = React.useState<string | undefined>();
+    const [dischargeDateError, setDischargeDateError] = React.useState<string | undefined>();
 
     if (!render) {
         return null;
     }
 
+    const handleDischargeCriteriaError = () => {
+        setDischargeCriteriaError("Field criteria is required");
+        setTimeout(() => {
+            setDischargeCriteriaError(undefined);
+        }, 3000);
+    };
+
+    const handleDischargeDateError = () => {
+        setDischargeDateError("Date must be typed YYYY-MM-DD");
+        setTimeout(() => {
+            setDischargeDateError(undefined);
+        }, 3000);
+    };
+
     return (
         <Formik
             initialValues={{
-                type: "HealthCheck",
+                type: "Hospital",
                 description: "",
                 date: "",
                 specialist: "",
                 diagnosisCodes: [],
-                healthCheckRating: 0,
+                discharge: {
+                    date: "",
+                    criteria: "",
+                }
             }}
             onSubmit={onSubmit}
             validate={values => {
@@ -55,13 +74,12 @@ const AddHealthCheckEntryForm: React.FC<Props> = ({ onSubmit, render }) => {
                 if (!values.specialist) {
                     errors.specialist = requiredError;
                 }
-                if (!values.healthCheckRating) {
-                    errors.healthCheckRating = requiredError;
+                if (!testDateError(values.discharge.date)) {
+                    handleDischargeDateError();
                 }
-                if (values.healthCheckRating < 0 || values.healthCheckRating > 3) {
-                    errors.healthCheckRating = "Value must be between 0-3";
+                if (!values.discharge.criteria) {
+                    handleDischargeCriteriaError();
                 }
-
                 return errors;
             }}
         >
@@ -94,13 +112,25 @@ const AddHealthCheckEntryForm: React.FC<Props> = ({ onSubmit, render }) => {
                             setFieldTouched={setFieldTouched}
                             diagnoses={Object.values(diagnosis)}
                         />
+                        <h3>Discharge information</h3>
                         <Field
-                            label="Healthcheck rating"
-                            name="healthCheckRating"
-                            component={NumberField}
-                            min={0}
-                            max={3}
+                            label="Date"
+                            placeholder="YYYY-MM-DD"
+                            name="discharge.date"
+                            component={TextField}
                         />
+                        <div style={{ color: "red" }}>
+                            {dischargeDateError}
+                        </div>
+                        <Field
+                            label="Criteria"
+                            placeholder="Criteria"
+                            name="discharge.criteria"
+                            component={TextField}
+                        />
+                        <div style={{ color: "red" }}>
+                            {dischargeCriteriaError}
+                        </div>
                         <Grid>
                             <Grid.Column floated="right" width={5}>
                                 <Button
@@ -120,4 +150,4 @@ const AddHealthCheckEntryForm: React.FC<Props> = ({ onSubmit, render }) => {
     );
 };
 
-export default AddHealthCheckEntryForm;
+export default AddHospitalEntryForm;

@@ -24,7 +24,7 @@ type: "HealthCheck";
 healthCheckRating: HealthCheckRating;
 }
 
-interface Discharge {
+export interface Discharge {
 date: string;
 criteria: string;
 }

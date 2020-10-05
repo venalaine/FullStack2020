@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import axios from "axios";
 import { useParams } from 'react-router-dom';
-import { HealthCheckEntry, Patient } from "../types";
+import { HealthCheckEntry, HospitalEntry, Patient } from "../types";
 import { apiBaseUrl } from '../constants';
-import { useStateValue, addPatient, addHealthCheckEntry } from '../state';
-import { Icon } from 'semantic-ui-react';
+import { useStateValue, addPatient, addHealthCheckEntry, addHospitalEntry } from '../state';
+import { Icon, Button } from 'semantic-ui-react';
 import EntryDetails from '../EntryDetails/index';
 import AddHealthCheckEntryForm, { HealthCheckEntryFormValues } from '../AddHealthCheckEntryForm/index';
+import AddHospitalEntryForm, { HospitalEntryFormValues } from '../AddHospitalEntry';
 
 const PatienPage: React.FC = () => {
     const [{ patients }, dispatch] = useStateValue();
+    const [renderHCE, setRenderHCE] = useState(false);
+    const [renderHospital, setRenderHospital] = useState(false);
 
     const { id } = useParams<{ id: string | undefined }>();
     const patient = patients[id];
@@ -54,6 +57,28 @@ const PatienPage: React.FC = () => {
         }
     };
 
+    const submitNewHospitalEntry = async (values: HospitalEntryFormValues) => {
+        try {
+            const { data: newHospitalEntry } = await axios.post<HospitalEntry>(
+                `${apiBaseUrl}/patients/${id}/entries`, values
+            );
+            dispatch(addHospitalEntry(id, newHospitalEntry));
+            fetchPatient();
+        } catch (e) {
+            console.error(e.response.data);
+        }
+    };
+
+    const handleRenderHCE = () => {
+        setRenderHCE(true);
+        setRenderHospital(false);
+    };
+
+    const handleRenderHospital = () => {
+        setRenderHCE(false);
+        setRenderHospital(true);
+    };
+
     return (
         <div>
             <div key={patient.id}>
@@ -63,7 +88,11 @@ const PatienPage: React.FC = () => {
                 <h2>Entries</h2>
                 {patient.entries.map(e => <EntryDetails key={e.id} entry={e} />)}
             </div>
-            <AddHealthCheckEntryForm onSubmit={submitNewHealthCheckEntry} />
+            <br/>
+            <Button onClick={handleRenderHCE}>Add healthcheck entry</Button>
+            <Button onClick={handleRenderHospital}>Add hospital entry</Button>
+            <AddHealthCheckEntryForm onSubmit={submitNewHealthCheckEntry} render={renderHCE} />
+            <AddHospitalEntryForm onSubmit={submitNewHospitalEntry} render={renderHospital} />
         </div>
     );
 };
