@@ -1,5 +1,5 @@
 import { State } from "./state";
-import { Patient, Diagnosis, HealthCheckEntry, HospitalEntry } from "../types";
+import { Patient, Diagnosis, HealthCheckEntry, HospitalEntry, OccupationalHealthcareEntry } from "../types";
 
 export type Action =
   | {
@@ -26,6 +26,13 @@ export type Action =
     payload: {
       id: string;
       entry: HospitalEntry;
+    };
+  }
+  | {
+    type: "ADD_OCCUPATIONALENTRY";
+    payload: {
+      id: string;
+      entry: OccupationalHealthcareEntry;
     };
   };
 
@@ -73,6 +80,12 @@ export const reducer = (state: State, action: Action): State => {
       return {
         ...state,
       };
+      case "ADD_OCCUPATIONALENTRY":
+        const patient3 = state.patients[action.payload.id];
+        patient3.entries = [...patient3.entries, action.payload.entry];
+        return {
+          ...state,
+        };
     default:
       return state;
   }
@@ -109,6 +122,13 @@ export const addHealthCheckEntry = (id: string, entry: HealthCheckEntry): Action
 export const addHospitalEntry = (id: string, entry: HospitalEntry): Action => {
   return {
     type: "ADD_HOSPITALENTRY",
+    payload: { id: id, entry },
+  };
+};
+
+export const addOccupationalEntry = (id: string, entry: OccupationalHealthcareEntry): Action => {
+  return {
+    type: "ADD_OCCUPATIONALENTRY",
     payload: { id: id, entry },
   };
 };

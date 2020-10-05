@@ -1,18 +1,21 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useParams } from 'react-router-dom';
-import { HealthCheckEntry, HospitalEntry, Patient } from "../types";
+import { HealthCheckEntry, HospitalEntry, OccupationalHealthcareEntry, Patient } from "../types";
 import { apiBaseUrl } from '../constants';
-import { useStateValue, addPatient, addHealthCheckEntry, addHospitalEntry } from '../state';
+import { useStateValue, addPatient, addHealthCheckEntry, addHospitalEntry, addOccupationalEntry } from '../state';
 import { Icon, Button } from 'semantic-ui-react';
 import EntryDetails from '../EntryDetails/index';
 import AddHealthCheckEntryForm, { HealthCheckEntryFormValues } from '../AddHealthCheckEntryForm/index';
 import AddHospitalEntryForm, { HospitalEntryFormValues } from '../AddHospitalEntry';
+import AddOccupationalEntryForm, { OccupationalEntryFormValues } from '../AddOccupationalEntry/index';
+
 
 const PatienPage: React.FC = () => {
     const [{ patients }, dispatch] = useStateValue();
     const [renderHCE, setRenderHCE] = useState(false);
     const [renderHospital, setRenderHospital] = useState(false);
+    const [renderOccupational, setRenderOccupational] = useState(false);
 
     const { id } = useParams<{ id: string | undefined }>();
     const patient = patients[id];
@@ -69,14 +72,34 @@ const PatienPage: React.FC = () => {
         }
     };
 
+    const submitNewOccupationalEntry = async (values: OccupationalEntryFormValues) => {
+        try {
+            const { data: newOccupationalEntry } = await axios.post<OccupationalHealthcareEntry>(
+                `${apiBaseUrl}/patients/${id}/entries`, values
+            );
+            dispatch(addOccupationalEntry(id, newOccupationalEntry));
+            fetchPatient();
+        } catch (e) {
+            console.error(e.response.data);
+        }
+    };
+
     const handleRenderHCE = () => {
         setRenderHCE(true);
         setRenderHospital(false);
+        setRenderOccupational(false);
     };
 
     const handleRenderHospital = () => {
         setRenderHCE(false);
         setRenderHospital(true);
+        setRenderOccupational(false);
+    };
+
+    const handleRenderOccupational = () => {
+        setRenderHCE(false);
+        setRenderHospital(false);
+        setRenderOccupational(true);
     };
 
     return (
@@ -91,8 +114,10 @@ const PatienPage: React.FC = () => {
             <br/>
             <Button onClick={handleRenderHCE}>Add healthcheck entry</Button>
             <Button onClick={handleRenderHospital}>Add hospital entry</Button>
+            <Button onClick={handleRenderOccupational}>Add occupational healtcare entry</Button>
             <AddHealthCheckEntryForm onSubmit={submitNewHealthCheckEntry} render={renderHCE} />
             <AddHospitalEntryForm onSubmit={submitNewHospitalEntry} render={renderHospital} />
+            <AddOccupationalEntryForm onSubmit={submitNewOccupationalEntry} render={renderOccupational} />
         </div>
     );
 };
